@@ -1,0 +1,24 @@
+package module.contents.domain;
+
+
+valueType org.joda.time.DateTime as DateTime;
+valueType org.joda.time.LocalDate as LocalDate;
+
+valueType pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString as MultiLanguageString;
+valueType pt.utl.ist.fenix.tools.util.Strings as Strings;
+
+
+class Node {
+	Integer nodeOrder;
+}
+
+class Page {
+	MultiLanguageString title;
+	MultiLanguageString link;
+}
+
+class Section {
+	MultiLanguageString title;
+	MultiLanguageString contents;
+	Integer sectionOrder;
+}
