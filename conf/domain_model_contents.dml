@@ -1,4 +1,4 @@
-package module.contents.domain;
+/** package module.contents.domain; **/
 
 
 valueType org.joda.time.DateTime as DateTime;
@@ -8,17 +8,67 @@ valueType pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString as MultiLanguageS
 valueType pt.utl.ist.fenix.tools.util.Strings as Strings;
 
 
-class Node {
+class module.contents.domain.Node {
 	Integer nodeOrder;
 }
 
-class Page {
+class module.contents.domain.Page {
 	MultiLanguageString title;
 	MultiLanguageString link;
 }
 
-class Section {
+class module.contents.domain.Section {
 	MultiLanguageString title;
 	MultiLanguageString contents;
 	Integer sectionOrder;
+}
+
+
+relation MyOrgNode {
+	myorg.domain.MyOrg playsRole myOrg;
+	module.contents.domain.Node playsRole nodes {
+		multiplicity *;
+	}
+}
+
+relation MyOrgTopLevelNode {
+	myorg.domain.MyOrg playsRole myOrgFromTopLevelNode;
+	module.contents.domain.Node playsRole topLevelNodes {
+		multiplicity *;
+	}
+}
+
+relation MyOrgPage {
+	myorg.domain.MyOrg playsRole myOrg;
+	module.contents.domain.Page playsRole pages {
+		multiplicity *;
+	}
+}
+
+relation PageParentNode {
+	module.contents.domain.Page playsRole childPage;
+	module.contents.domain.Node playsRole parentNodes {
+		multiplicity *;
+	}
+}
+
+relation PageChildNode {
+	module.contents.domain.Page playsRole parentPage;
+	module.contents.domain.Node playsRole childNodes {
+		multiplicity *;
+	}
+}
+
+relation MyOrgSection {
+	myorg.domain.MyOrg playsRole myOrg;
+	module.contents.domain.Section playsRole sections {
+		multiplicity *;
+	}
+}
+
+relation PageSection {
+	module.contents.domain.Page playsRole page;
+	module.contents.domain.Section playsRole sections {
+		multiplicity *;
+	}
 }

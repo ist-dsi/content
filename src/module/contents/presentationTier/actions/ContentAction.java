@@ -6,11 +6,11 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import myorg.domain.content.Node;
-import myorg.domain.content.Page;
-import myorg.domain.content.Section;
-import myorg.domain.content.Page.PageBean;
-import myorg.domain.content.Section.SectionBean;
+import module.contents.domain.Node;
+import module.contents.domain.Page;
+import module.contents.domain.Section;
+import module.contents.domain.Page.PageBean;
+import module.contents.domain.Section.SectionBean;
 import myorg.presentationTier.Context;
 import myorg.presentationTier.actions.ContextBaseAction;
 
