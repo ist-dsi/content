@@ -6,11 +6,13 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import module.contents.domain.Node;
 import module.contents.domain.Page;
+import module.contents.domain.PageNode;
 import module.contents.domain.Section;
 import module.contents.domain.Page.PageBean;
 import module.contents.domain.Section.SectionBean;
+import myorg.domain.contents.INode;
+import myorg.domain.contents.Node;
 import myorg.presentationTier.Context;
 import myorg.presentationTier.actions.ContextBaseAction;
 
@@ -43,9 +45,8 @@ public class ContentAction extends ContextBaseAction {
     public final ActionForward prepareCreateNewPage(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 	final Context context = getContext(request);
-	final Node node = context.getSelectedNode();
-	final Page page = node == null ? null : node.getChildPage();
-	final PageBean pageBean = new PageBean(page);
+	final INode node = context.getSelectedNode();
+	final PageBean pageBean = new PageBean((Node) node);
 	request.setAttribute("pageBean", pageBean);
 	return mapping.findForward("new.page");
     }
@@ -53,9 +54,9 @@ public class ContentAction extends ContextBaseAction {
     public final ActionForward createNewPage(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 	final PageBean pageBean = getRenderedObject();
-	final Node node = Page.createNewPage(pageBean);
+	final INode node = Page.createNewPage(pageBean);
 	final Context context = getContext(request);
-	if (node.getParentPage() == null) {
+	if (node.getParent() == null) {
 	    context.pop();
 	}
 	context.push(node);
@@ -65,9 +66,9 @@ public class ContentAction extends ContextBaseAction {
     public final ActionForward deletePage(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 	final Context context = getContext(request);
-	final Node node = context.getSelectedNode();
+	final INode node = context.getSelectedNode();
 	context.pop(node);
-	node.delete();
+	((Node) node).deleteService();
 	return viewPage(mapping, form, request, response);
     }
 
@@ -81,8 +82,8 @@ public class ContentAction extends ContextBaseAction {
     public final ActionForward prepareAddSection(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 	final Context context = getContext(request);
-	final Node node = context.getSelectedNode();
-	final Page page = node.getChildPage();
+	final PageNode pageNode = (PageNode) context.getSelectedNode();
+	final Page page = pageNode.getPage();
 	final SectionBean sectionBean = new SectionBean(page);
 	request.setAttribute("sectionBean", sectionBean);
 	return mapping.findForward("new.section");
@@ -111,8 +112,8 @@ public class ContentAction extends ContextBaseAction {
 
     public final ActionForward saveSectionOrders(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-	final Node node = getDomainObject(request, "nodeOid");
-	final Page page = node.getChildPage();
+	final PageNode pageNode = getDomainObject(request, "nodeOid");
+	final Page page = pageNode.getPage();
 
 	final String[] sectionOrders = request.getParameter("articleOrders").split(";");
 	final String[] originalSectionIds = request.getParameter("originalArticleIds").split(";");
@@ -148,17 +149,17 @@ public class ContentAction extends ContextBaseAction {
     public final ActionForward savePageOrders(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 	final Context context = getContext(request);
-	final Collection<Node> menuNodes = context.getMenuElements();
+	final Collection<INode> menuNodes = context.getMenuElements();
 
 	final String[] nodeOrders = request.getParameter("articleOrders").split(";");
 	final String[] originalNodeIds = request.getParameter("originalArticleIds").split(";");
 
 	if (nodeOrders.length == originalNodeIds.length) {
-	    final ArrayList<Node> originalNodes = new ArrayList<Node>(nodeOrders.length);
+	    final ArrayList<INode> originalNodes = new ArrayList<INode>(nodeOrders.length);
 	    final ArrayList<Node> nodes = new ArrayList<Node>(nodeOrders.length);
 	    int i = 0;
-	    for (final Node node : menuNodes) {
-		if (Long.toString(node.getOID()).equals(originalNodeIds[i])) {
+	    for (final INode node : menuNodes) {
+		if (node.asString().equals(originalNodeIds[i])) {
 		    originalNodes.add(node);
 		} else {
 		    return viewPage(mapping, form, request, response);
@@ -167,13 +168,13 @@ public class ContentAction extends ContextBaseAction {
 	    }
 	    for (final String nodeOrder : nodeOrders) {
 		final int no = Integer.parseInt(nodeOrder.substring(11));
-		nodes.add(originalNodes.get(no));
+		nodes.add((Node) originalNodes.get(no));
 	    }
-	    final Node parentNode = context.getParentNode();
+	    final Node parentNode = (Node) context.getParentNode();
 	    if (parentNode == null) {
-		Node.reorderNodes(nodes);
+		Node.reorderTopLevelNodes(nodes);
 	    } else {
-		parentNode.getChildPage().reorderNodes(nodes);
+		parentNode.reorderNodes(nodes);
 	    }
 	}
 

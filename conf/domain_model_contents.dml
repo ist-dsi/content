@@ -8,8 +8,7 @@ valueType pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString as MultiLanguageS
 valueType pt.utl.ist.fenix.tools.util.Strings as Strings;
 
 
-class module.contents.domain.Node {
-	Integer nodeOrder;
+class module.contents.domain.PageNode extends myorg.domain.contents.Node {
 }
 
 class module.contents.domain.Page {
@@ -24,20 +23,6 @@ class module.contents.domain.Section {
 }
 
 
-relation MyOrgNode {
-	myorg.domain.MyOrg playsRole myOrg;
-	module.contents.domain.Node playsRole nodes {
-		multiplicity *;
-	}
-}
-
-relation MyOrgTopLevelNode {
-	myorg.domain.MyOrg playsRole myOrgFromTopLevelNode;
-	module.contents.domain.Node playsRole topLevelNodes {
-		multiplicity *;
-	}
-}
-
 relation MyOrgPage {
 	myorg.domain.MyOrg playsRole myOrg;
 	module.contents.domain.Page playsRole pages {
@@ -45,16 +30,9 @@ relation MyOrgPage {
 	}
 }
 
-relation PageParentNode {
-	module.contents.domain.Page playsRole childPage;
-	module.contents.domain.Node playsRole parentNodes {
-		multiplicity *;
-	}
-}
-
-relation PageChildNode {
-	module.contents.domain.Page playsRole parentPage;
-	module.contents.domain.Node playsRole childNodes {
+relation PagePageNode {
+	module.contents.domain.Page playsRole page;
+	module.contents.domain.PageNode playsRole nodes {
 		multiplicity *;
 	}
 }

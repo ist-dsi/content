@@ -9,6 +9,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import myorg.domain.MyOrg;
+import myorg.domain.contents.INode;
+import myorg.domain.contents.Node;
 import pt.ist.fenixWebFramework.services.Service;
 import pt.ist.fenixWebFramework.util.DomainReference;
 import pt.ist.fenixframework.pstm.Transaction;
@@ -22,14 +24,14 @@ public class Page extends Page_Base {
 
 	MultiLanguageString title;
 	MultiLanguageString link;
-	DomainReference<Page> parentPage;
+	DomainReference<Node> parentNode;
 
 	public PageBean() {
 	}
 
-	public PageBean(final Page parentPage) {
+	public PageBean(final Node parentNode) {
 	    this();
-	    setParentPage(parentPage);
+	    setParentNode(parentNode);
 	}
 
 	public MultiLanguageString getTitle() {
@@ -44,11 +46,11 @@ public class Page extends Page_Base {
 	public void setLink(MultiLanguageString link) {
 	    this.link = link;
 	}
-	public Page getParentPage() {
-	    return parentPage == null ? null : parentPage.getObject();
+	public Node getParentNode() {
+	    return parentNode == null ? null : parentNode.getObject();
 	}
-	public void setParentPage(Page parentPage) {
-	    this.parentPage = parentPage == null ? null : new DomainReference<Page>(parentPage);
+	public void setParentNode(final Node parentNode) {
+	    this.parentNode = parentNode == null ? null : new DomainReference<Node>(parentNode);
 	}
     }
 
@@ -61,22 +63,19 @@ public class Page extends Page_Base {
 	this();
 	setTitle(pageBean.getTitle());
 	setLink(pageBean.getLink());
-	new Node(pageBean.getParentPage(), this, null);
+	new PageNode(pageBean.getParentNode(), this, null);
     }
 
     @Service
-    public static Node createNewPage(final PageBean pageBean) {
+    public static INode createNewPage(final PageBean pageBean) {
 	final Page page = new Page(pageBean);
-	return page.getParentNodesIterator().next();
+	return page.getNodesIterator().next();
     }
 
     public void deleteIfDisconnected() {
-	if (!hasAnyParentNodes()) {
+	if (!hasAnyNodes()) {
 	    for (final Section section : getSectionsSet()) {
 		section.delete();
-	    }
-	    for (final Node node : getChildNodesSet()) {
-		node.delete();
 	    }
 	    removeMyOrg();
 	    Transaction.deleteObject(this);
@@ -103,29 +102,6 @@ public class Page extends Page_Base {
 		throw new Error("Sections changed!");
 	    }
 	    section.setSectionOrder(Integer.valueOf(i++));
-	}
-    }
-
-    public Collection<Node> getOrderedChildNodes() {
-	final SortedSet<Node> nodes = new TreeSet<Node>(Node.COMPARATOR_BY_ORDER);
-	nodes.addAll(getChildNodesSet());
-	return nodes;
-    }
-
-    @Service
-    public void reorderNodes(final List<Node> nodes) {
-	for (final Node node : getChildNodesSet()) {
-	    if (!nodes.contains(node)) {
-		throw new Error("Nodes changed!");
-	    }
-	}
-
-	int i = 0;
-	for (final Node node : nodes) {
-	    if (!hasChildNodes(node)) {
-		throw new Error("Nodes changed!");
-	    }
-	    node.setNodeOrder(Integer.valueOf(i++));
 	}
     }
 
