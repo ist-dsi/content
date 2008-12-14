@@ -14,6 +14,7 @@ import module.contents.domain.Section.SectionBean;
 import myorg.domain.contents.INode;
 import myorg.domain.contents.Node;
 import myorg.presentationTier.Context;
+import myorg.presentationTier.LayoutContext;
 import myorg.presentationTier.actions.ContextBaseAction;
 
 import org.apache.struts.action.ActionForm;
@@ -33,6 +34,13 @@ import pt.ist.fenixWebFramework.struts.annotations.Mapping;
     @Forward(name="edit.section", path="/editSection.jsp")} )
 public class ContentAction extends ContextBaseAction {
 
+    @Override
+    public Context createContext(final String contextPathString) {
+	final LayoutContext layoutContext = new LayoutContext(contextPathString);
+	layoutContext.setPageOperations("/pageOperations.jsp");
+	return layoutContext;
+    }
+
     public final ActionForward viewPage(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) throws Exception {
 	final Context context = getContext(request);
@@ -40,17 +48,17 @@ public class ContentAction extends ContextBaseAction {
 	    final Node node = Node.getFirstTopLevelNode();
 	    context.push(node);
 	}
-	return mapping.findForward("page");
+	return context.forward("/page.jsp");
     }
 
-    @CreateNodeAction( bundle="resources.ContentResources", key="option.create.new.page" )
+    @CreateNodeAction( bundle="CONTENT_RESOURCES", key="option.create.new.page" )
     public final ActionForward prepareCreateNewPage(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 	final Context context = getContext(request);
 	final INode node = context.getSelectedNode();
 	final PageBean pageBean = new PageBean((Node) node);
 	request.setAttribute("pageBean", pageBean);
-	return mapping.findForward("new.page");
+	return context.forward("/newPage.jsp");
     }
 
     public final ActionForward createNewPage(final ActionMapping mapping, final ActionForm form,
@@ -76,9 +84,10 @@ public class ContentAction extends ContextBaseAction {
 
     public final ActionForward prepareEditPage(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	final Context context = getContext(request);
 	final Node node = getDomainObject(request, "nodeOid");
 	request.setAttribute("selectedNode", node);
-	return mapping.findForward("edit.page");
+	return context.forward("/editPage.jsp");
     }
 
     public final ActionForward prepareAddSection(final ActionMapping mapping, final ActionForm form,
@@ -88,14 +97,15 @@ public class ContentAction extends ContextBaseAction {
 	final Page page = pageNode.getPage();
 	final SectionBean sectionBean = new SectionBean(page);
 	request.setAttribute("sectionBean", sectionBean);
-	return mapping.findForward("new.section");
+	return context.forward("/newSection.jsp");
     }
 
     public final ActionForward addSection(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	final Context context = getContext(request);
 	final SectionBean sectionBean = getRenderedObject();
 	Section.createNewSection(sectionBean);
-	return mapping.findForward("page");
+	return context.forward("/page.jsp");
     }
 
     public final ActionForward deleteSection(final ActionMapping mapping, final ActionForm form,
@@ -107,9 +117,10 @@ public class ContentAction extends ContextBaseAction {
 
     public final ActionForward prepareEditSection(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+	final Context context = getContext(request);
 	final Section section = getDomainObject(request, "sectionOid");
 	request.setAttribute("section", section);
-	return mapping.findForward("edit.section");
+	return context.forward("/editSection.jsp");
     }
 
     public final ActionForward saveSectionOrders(final ActionMapping mapping, final ActionForm form,
