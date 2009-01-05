@@ -1,6 +1,8 @@
 package module.contents.domain;
 
 import myorg.domain.contents.Node;
+import myorg.presentationTier.Context;
+import myorg.presentationTier.actions.ContextBaseAction;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class PageNode extends PageNode_Base {
@@ -30,6 +32,11 @@ public class PageNode extends PageNode_Base {
     public MultiLanguageString getLink() {
 	final Page page = getPage();
 	return page.getLink();
+    }
+
+    @Override
+    public String getUrl(final Context context) {
+	return "/content.do?method=viewPage&amp;" + ContextBaseAction.CONTEXT_PATH + context.getPrefixPath() + getOID();
     }
 
 }
