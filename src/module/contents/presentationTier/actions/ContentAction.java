@@ -51,7 +51,7 @@ public class ContentAction extends ContextBaseAction {
 	return context.forward("/page.jsp");
     }
 
-    @CreateNodeAction( bundle="CONTENT_RESOURCES", key="option.create.new.page" )
+    @CreateNodeAction( bundle="CONTENT_RESOURCES", key="option.create.new.page", groupKey="label.module.contents" )
     public final ActionForward prepareCreateNewPage(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 	final Context context = getContext(request);
