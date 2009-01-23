@@ -22,16 +22,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import pt.ist.fenixWebFramework.servlets.functionalities.CreateNodeAction;
-import pt.ist.fenixWebFramework.struts.annotations.Forward;
-import pt.ist.fenixWebFramework.struts.annotations.Forwards;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
 
 @Mapping( path="/content" )
-@Forwards( { @Forward(name="page", path="/page.jsp"),
-    @Forward(name="new.page", path="/newPage.jsp"),
-    @Forward(name="edit.page", path="/editPage.jsp"),
-    @Forward(name="new.section", path="/newSection.jsp"),
-    @Forward(name="edit.section", path="/editSection.jsp")} )
 public class ContentAction extends ContextBaseAction {
 
     @Override
@@ -48,7 +41,7 @@ public class ContentAction extends ContextBaseAction {
 	    final Node node = Node.getFirstTopLevelNode();
 	    context.push(node);
 	}
-	return context.forward("/page.jsp");
+	return context.forward("/contents/page.jsp");
     }
 
     @CreateNodeAction( bundle="CONTENT_RESOURCES", key="option.create.new.page", groupKey="label.module.contents" )
@@ -58,7 +51,7 @@ public class ContentAction extends ContextBaseAction {
 	final INode node = context.getSelectedNode();
 	final PageBean pageBean = new PageBean((Node) node);
 	request.setAttribute("pageBean", pageBean);
-	return context.forward("/newPage.jsp");
+	return context.forward("/contents/newPage.jsp");
     }
 
     public final ActionForward createNewPage(final ActionMapping mapping, final ActionForm form,
@@ -87,7 +80,7 @@ public class ContentAction extends ContextBaseAction {
 	final Context context = getContext(request);
 	final Node node = getDomainObject(request, "nodeOid");
 	request.setAttribute("selectedNode", node);
-	return context.forward("/editPage.jsp");
+	return context.forward("/contents/editPage.jsp");
     }
 
     public final ActionForward prepareAddSection(final ActionMapping mapping, final ActionForm form,
@@ -97,7 +90,7 @@ public class ContentAction extends ContextBaseAction {
 	final Page page = pageNode.getPage();
 	final SectionBean sectionBean = new SectionBean(page);
 	request.setAttribute("sectionBean", sectionBean);
-	return context.forward("/newSection.jsp");
+	return context.forward("/contents/newSection.jsp");
     }
 
     public final ActionForward addSection(final ActionMapping mapping, final ActionForm form,
@@ -105,7 +98,7 @@ public class ContentAction extends ContextBaseAction {
 	final Context context = getContext(request);
 	final SectionBean sectionBean = getRenderedObject();
 	Section.createNewSection(sectionBean);
-	return context.forward("/page.jsp");
+	return context.forward("/contents/page.jsp");
     }
 
     public final ActionForward deleteSection(final ActionMapping mapping, final ActionForm form,
@@ -120,7 +113,7 @@ public class ContentAction extends ContextBaseAction {
 	final Context context = getContext(request);
 	final Section section = getDomainObject(request, "sectionOid");
 	request.setAttribute("section", section);
-	return context.forward("/editSection.jsp");
+	return context.forward("/contents/editSection.jsp");
     }
 
     public final ActionForward saveSectionOrders(final ActionMapping mapping, final ActionForm form,
