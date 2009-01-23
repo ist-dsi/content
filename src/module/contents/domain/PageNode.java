@@ -38,7 +38,7 @@ public class PageNode extends PageNode_Base {
 
     @Override
     public String getUrl(final Context context) {
-	return "/content.do?method=viewPage&amp;" + ContextBaseAction.CONTEXT_PATH + context.getPrefixPath() + getOID();
+	return "/content.do?method=viewPage&" + ContextBaseAction.CONTEXT_PATH + '=' + context.getPrefixPath() + getOID();
     }
 
 }
