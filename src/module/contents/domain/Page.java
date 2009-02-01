@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import myorg.domain.MyOrg;
+import myorg.domain.VirtualHost;
 import myorg.domain.contents.INode;
 import myorg.domain.contents.Node;
 import pt.ist.fenixWebFramework.services.Service;
@@ -22,13 +23,15 @@ public class Page extends Page_Base {
 	MultiLanguageString title;
 	MultiLanguageString link;
 	DomainReference<Node> parentNode;
+	DomainReference<VirtualHost> virtualHost;
 
 	public PageBean() {
 	}
 
-	public PageBean(final Node parentNode) {
+	public PageBean(final VirtualHost virtualHost, final Node parentNode) {
 	    this();
 	    setParentNode(parentNode);
+	    setVirtualHost(virtualHost);
 	}
 
 	public MultiLanguageString getTitle() {
@@ -49,6 +52,13 @@ public class Page extends Page_Base {
 	public void setParentNode(final Node parentNode) {
 	    this.parentNode = parentNode == null ? null : new DomainReference<Node>(parentNode);
 	}
+	public VirtualHost getVirtualHost() {
+	    return virtualHost == null ? null : virtualHost.getObject();
+	}
+
+	public void setVirtualHost(final VirtualHost virtualHost) {
+	    this.virtualHost = virtualHost == null ? null : new DomainReference<VirtualHost>(virtualHost);
+	}
     }
 
     public Page() {
@@ -60,7 +70,7 @@ public class Page extends Page_Base {
 	this();
 	setTitle(pageBean.getTitle());
 	setLink(pageBean.getLink());
-	new PageNode(pageBean.getParentNode(), this, null);
+	new PageNode(pageBean.getVirtualHost(), pageBean.getParentNode(), this, null);
     }
 
     @Service

@@ -1,5 +1,6 @@
 package module.contents.domain;
 
+import myorg.domain.VirtualHost;
 import myorg.domain.contents.Node;
 import myorg.domain.groups.AnyoneGroup;
 import myorg.presentationTier.Context;
@@ -13,9 +14,9 @@ public class PageNode extends PageNode_Base {
         setAccessibilityGroup(AnyoneGroup.getInstance());
     }
 
-    public PageNode(final Node parentNode, final Page page, final Integer order) {
+    public PageNode(final VirtualHost virtualHost, final Node parentNode, final Page page, final Integer order) {
 	this();
-	init(parentNode, order);
+	init(virtualHost, parentNode, order);
 	setPage(page);
     }
 

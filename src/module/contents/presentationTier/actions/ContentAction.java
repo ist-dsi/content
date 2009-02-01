@@ -11,6 +11,7 @@ import module.contents.domain.PageNode;
 import module.contents.domain.Section;
 import module.contents.domain.Page.PageBean;
 import module.contents.domain.Section.SectionBean;
+import myorg.domain.VirtualHost;
 import myorg.domain.contents.INode;
 import myorg.domain.contents.Node;
 import myorg.presentationTier.Context;
@@ -47,23 +48,22 @@ public class ContentAction extends ContextBaseAction {
     @CreateNodeAction( bundle="CONTENT_RESOURCES", key="option.create.new.page", groupKey="label.module.contents" )
     public final ActionForward prepareCreateNewPage(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-	final Context context = getContext(request);
-	final INode node = context.getSelectedNode();
-	final PageBean pageBean = new PageBean((Node) node);
+	final VirtualHost virtualHost = getDomainObject(request, "virtualHostToManageId");
+	final Node node = getDomainObject(request, "parentOfNodesToManageId");
+	final PageBean pageBean = new PageBean(virtualHost, node);
 	request.setAttribute("pageBean", pageBean);
+
+	final Context context = getContext(request);
 	return context.forward("/contents/newPage.jsp");
     }
 
     public final ActionForward createNewPage(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 	final PageBean pageBean = getRenderedObject();
-	final INode node = Page.createNewPage(pageBean);
-	final Context context = getContext(request);
-	if (node.getParent() == null) {
-	    context.pop();
-	}
-	context.push(node);
-	return viewPage(mapping, form, request, response);
+	Page.createNewPage(pageBean);
+	final VirtualHost virtualHost = pageBean.getVirtualHost();
+	final Node node = pageBean.getParentNode();
+	return forwardToMuneConfiguration(request, virtualHost, node);
     }
 
     public final ActionForward deletePage(final ActionMapping mapping, final ActionForm form,
@@ -184,7 +184,9 @@ public class ContentAction extends ContextBaseAction {
 	    }
 	}
 
-	return viewPage(mapping, form, request, response);
+	final VirtualHost virtualHost = getDomainObject(request, "virtualHostToManageId");
+	final Node node = getDomainObject(request, "parentOfNodesToManageId");
+	return forwardToMuneConfiguration(request, virtualHost, node);
     }
 
     public final ActionForward reorderPages(final ActionMapping mapping, final ActionForm form,
