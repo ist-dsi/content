@@ -33,6 +33,7 @@ import myorg.domain.MyOrg;
 import myorg.domain.VirtualHost;
 import myorg.domain.contents.INode;
 import myorg.domain.contents.Node;
+import myorg.domain.groups.PersistentGroup;
 import pt.ist.fenixWebFramework.services.Service;
 import pt.ist.fenixWebFramework.util.DomainReference;
 import pt.ist.fenixframework.pstm.Transaction;
@@ -48,6 +49,7 @@ public class Page extends Page_Base {
 	MultiLanguageString link;
 	DomainReference<Node> parentNode;
 	DomainReference<VirtualHost> virtualHost;
+	DomainReference<PersistentGroup> group;
 
 	public PageBean() {
 	}
@@ -58,24 +60,37 @@ public class Page extends Page_Base {
 	    setVirtualHost(virtualHost);
 	}
 
+	public PageBean(final VirtualHost virtualHost, final Node parentNode, PersistentGroup group) {
+	    this();
+	    setParentNode(parentNode);
+	    setVirtualHost(virtualHost);
+	    setPersistentGroup(group);
+	}
+
 	public MultiLanguageString getTitle() {
 	    return title;
 	}
+
 	public void setTitle(MultiLanguageString title) {
 	    this.title = title;
 	}
+
 	public MultiLanguageString getLink() {
 	    return link;
 	}
+
 	public void setLink(MultiLanguageString link) {
 	    this.link = link;
 	}
+
 	public Node getParentNode() {
 	    return parentNode == null ? null : parentNode.getObject();
 	}
+
 	public void setParentNode(final Node parentNode) {
 	    this.parentNode = parentNode == null ? null : new DomainReference<Node>(parentNode);
 	}
+
 	public VirtualHost getVirtualHost() {
 	    return virtualHost == null ? null : virtualHost.getObject();
 	}
@@ -83,11 +98,19 @@ public class Page extends Page_Base {
 	public void setVirtualHost(final VirtualHost virtualHost) {
 	    this.virtualHost = virtualHost == null ? null : new DomainReference<VirtualHost>(virtualHost);
 	}
+
+	public PersistentGroup getPersistentGroup() {
+	    return group == null ? null : group.getObject();
+	}
+
+	public void setPersistentGroup(final PersistentGroup group) {
+	    this.group = group == null ? null : new DomainReference<PersistentGroup>(group);
+	}
     }
 
     public Page() {
-        super();
-        setMyOrg(MyOrg.getInstance());
+	super();
+	setMyOrg(MyOrg.getInstance());
     }
 
     public Page(final PageBean pageBean) {
