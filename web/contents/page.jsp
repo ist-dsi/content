@@ -26,6 +26,7 @@
 							<logic:notEmpty name="section" property="title">
 								<bean:define id="title" name="section" property="title"/>
 								<logic:present name="USER_SESSION_ATTRIBUTE">
+								<logic:present role="myorg.domain.RoleType.MANAGER">
 									<div style="float: right;">
 										<html:link page="/content.do?method=prepareEditSection" paramId="sectionOid" paramName="section" paramProperty="OID">
 											<bean:message bundle="MYORG_RESOURCES" key="label.content.section.edit"/>
@@ -43,6 +44,7 @@
 											<bean:message bundle="MYORG_RESOURCES" key="label.content.section.delete"/>
 										</html:link>
 									</div>
+								</logic:present>
 								</logic:present>
 								<h3>
 									<bean:write name="section" property="title" filter="false"/>
