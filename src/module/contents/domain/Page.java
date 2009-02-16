@@ -118,7 +118,8 @@ public class Page extends Page_Base {
 	this();
 	setTitle(pageBean.getTitle());
 	setLink(pageBean.getLink());
-	new PageNode(pageBean.getVirtualHost(), pageBean.getParentNode(), this, null);
+	final PageNode pageNode = new PageNode(pageBean.getVirtualHost(), pageBean.getParentNode(), this, null);
+	pageNode.setAccessibilityGroup(pageBean.getPersistentGroup());
     }
 
     @Service
