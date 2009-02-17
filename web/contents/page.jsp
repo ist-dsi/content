@@ -46,9 +46,13 @@
 									</div>
 								</logic:present>
 								</logic:present>
-								<h3>
-									<bean:write name="section" property="title" filter="false"/>
-								</h3>
+								<logic:present name="section" property="title">
+									<logic:present name="section" property="title.content">
+										<h3>
+											<bean:write name="section" property="title" filter="false"/>
+										</h3>
+									</logic:present>
+								</logic:present>
 							</logic:notEmpty>
 						</logic:present>
 						<bean:write name="section" property="contents" filter="false"/>

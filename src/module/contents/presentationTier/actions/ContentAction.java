@@ -64,7 +64,7 @@ public class ContentAction extends ContextBaseAction {
 	    final HttpServletResponse response) throws Exception {
 	final Context context = getContext(request);
 	if (context.getElements().isEmpty()) {
-	    final Node node = Node.getFirstTopLevelNode();
+	    final Node node = Node.getFirstAvailableTopLevelNode();
 	    context.push(node);
 	}
 	return context.forward("/contents/page.jsp");

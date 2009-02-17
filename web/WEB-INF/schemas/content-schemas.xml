@@ -11,7 +11,7 @@
 <schema name="module.contents.domain.Section.SectionBean" type="module.contents.domain.Section$SectionBean" bundle="MYORG_RESOURCES">
 	<slot name="title" key="label.content.page.title" bundle="MYORG_RESOURCES"/>
 	<slot name="contents" key="label.content.page.contents" bundle="MYORG_RESOURCES" layout="rich-text">
-   		<property name="safe" value="true" />
+   		<property name="safe" value="false" />
    		<property name="columns" value="65"/>
    		<property name="rows" value="20"/>
    		<property name="config" value="advanced" />
@@ -21,7 +21,7 @@
 <schema name="module.contents.domain.Section" type="module.contents.domain.Section" bundle="MYORG_RESOURCES">
 	<slot name="title" key="label.content.page.title" bundle="MYORG_RESOURCES"/>
 	<slot name="contents" key="label.content.page.contents" bundle="MYORG_RESOURCES" layout="rich-text">
-   		<property name="safe" value="true" />
+   		<property name="safe" value="false" />
    		<property name="columns" value="65"/>
    		<property name="rows" value="20"/>
    		<property name="config" value="advanced" />
