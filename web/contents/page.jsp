@@ -7,6 +7,11 @@
 <bean:define id="context" type="myorg.presentationTier.Context" name="_CONTEXT_"/>
 
 <logic:present name="context" property="selectedNode">
+	<script type="text/javascript" src="<%= request.getContextPath() +"/javaScript/jquery.ui.draggable.js"%>"></script>
+	<script type="text/javascript" src="<%= request.getContextPath() +"/javaScript/jquery.alerts.js"%>"></script>
+	<script type="text/javascript" src="<%= request.getContextPath() +"/javaScript/alertHandlers.js"%>"></script>
+	<script type="text/javascript" src="<%= request.getContextPath() + "/javaScript/dragContents.js" %>"></script>
+	
 	<bean:define id="selectedNode" name="context" property="selectedNode"/>
 	<bean:define id="selectedPage" name="selectedNode" property="page"/>
 	<h2><bean:write name="selectedPage" property="title"/></h2>
@@ -36,13 +41,16 @@
 											<bean:message bundle="MYORG_RESOURCES" key="label.content.section.order.change"/>
 										</html:link>
 										|
-										<bean:define id="confirmDelete">return confirmDelete('<bean:message
+										<bean:define id="confirmDelete"><bean:message
 												bundle="MYORG_RESOURCES" key="label.content.section.delete.confirm"
-												arg0="<%= title.toString() %>"/>');</bean:define>
-										<html:link page="/content.do?method=deleteSection" paramId="sectionOid" paramName="section" paramProperty="OID"
-												onclick="<%= confirmDelete %>">
+												arg0="<%= title.toString() %>"/></bean:define>
+										<bean:define id="sectionOID" name="section" property="OID"/>
+										<html:link styleId="<%= "delete-section-" +  sectionOID %>" page="/content.do?method=deleteSection" paramId="sectionOid" paramName="section" paramProperty="OID">
 											<bean:message bundle="MYORG_RESOURCES" key="label.content.section.delete"/>
 										</html:link>
+										<script type="text/javascript">
+											<%= "linkConfirmationHook('delete-section-" +  sectionOID + "','" + confirmDelete + "', '');" %>
+										</script>
 									</div>
 								</logic:present>
 								</logic:present>
