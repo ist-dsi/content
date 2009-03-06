@@ -26,11 +26,21 @@
  */
 
 
-valueType org.joda.time.DateTime as DateTime;
-valueType org.joda.time.LocalDate as LocalDate;
+valueType pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString as MultiLanguageString {
+    externalizeWith {
+        String exportAsString();
+    }
 
-valueType pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString as MultiLanguageString;
-valueType pt.utl.ist.fenix.tools.util.Strings as Strings;
+    internalizeWith importFromString();
+}
+
+valueType pt.utl.ist.fenix.tools.util.Strings as Strings {
+    externalizeWith {
+        String exportAsString();
+    }
+
+    internalizeWith importFromString();
+}
 
 
 class module.contents.domain.PageNode extends myorg.domain.contents.Node {
