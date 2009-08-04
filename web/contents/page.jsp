@@ -33,19 +33,19 @@
 								<logic:present name="USER_SESSION_ATTRIBUTE">
 								<logic:present role="myorg.domain.RoleType.MANAGER">
 									<div style="float: right;">
-										<html:link page="/content.do?method=prepareEditSection" paramId="sectionOid" paramName="section" paramProperty="OID">
+										<html:link page="/content.do?method=prepareEditSection" paramId="sectionOid" paramName="section" paramProperty="externalId">
 											<bean:message bundle="MYORG_RESOURCES" key="label.content.section.edit"/>
 										</html:link>
 										|
-										<html:link page="/content.do?method=reorderSections" paramId="nodeOid" paramName="selectedNode" paramProperty="OID">
+										<html:link page="/content.do?method=reorderSections" paramId="nodeOid" paramName="selectedNode" paramProperty="externalId">
 											<bean:message bundle="MYORG_RESOURCES" key="label.content.section.order.change"/>
 										</html:link>
 										|
 										<bean:define id="confirmDelete"><bean:message
 												bundle="MYORG_RESOURCES" key="label.content.section.delete.confirm"
 												arg0="<%= title.toString() %>"/></bean:define>
-										<bean:define id="sectionOID" name="section" property="OID"/>
-										<html:link styleId="<%= "delete-section-" +  sectionOID %>" page="/content.do?method=deleteSection" paramId="sectionOid" paramName="section" paramProperty="OID">
+										<bean:define id="sectionOID" name="section" property="externalIdexternalId"/>
+										<html:link styleId="<%= "delete-section-" +  sectionOID %>" page="/content.do?method=deleteSection" paramId="sectionOid" paramName="section" paramProperty="externalId">
 											<bean:message bundle="MYORG_RESOURCES" key="label.content.section.delete"/>
 										</html:link>
 										<script type="text/javascript">
@@ -74,9 +74,9 @@
 			<form action="<%= request.getContextPath() %>/content.do" method="post">
 				<input type="hidden" name="method" value="saveSectionOrders"/>
 				<input type="hidden" id="articleOrders" name="articleOrders"/>
-				<bean:define id="nodeOid" name="selectedNode" property="OID"/>
+				<bean:define id="nodeOid" name="selectedNode" property="externalId"/>
 				<input type="hidden" name="nodeOid" value="<%= nodeOid %>"/>
-				<bean:define id="originalArticleIds"><logic:iterate id="section" name="selectedPage" property="orderedSections" indexId="sindex"><% if (sindex > 0) {%>;<% } %><bean:write name="section" property="OID"/></logic:iterate></bean:define>
+				<bean:define id="originalArticleIds"><logic:iterate id="section" name="selectedPage" property="orderedSections" indexId="sindex"><% if (sindex > 0) {%>;<% } %><bean:write name="section" property="externalId"/></logic:iterate></bean:define>
 				<input type="hidden" name="originalArticleIds" value="<%= originalArticleIds %>"/>
 				<bean:define id="buttonLabel"><bean:message bundle="MYORG_RESOURCES" key="label.content.section.order.save"/></bean:define>
 				<input type="submit" value="<%= buttonLabel %>" onclick="saveArticleOrders();"/>

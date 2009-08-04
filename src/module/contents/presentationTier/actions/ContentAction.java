@@ -50,7 +50,7 @@ import org.apache.struts.action.ActionMapping;
 import pt.ist.fenixWebFramework.servlets.functionalities.CreateNodeAction;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
 
-@Mapping( path="/content" )
+@Mapping(path = "/content")
 public class ContentAction extends ContextBaseAction {
 
     @Override
@@ -70,7 +70,7 @@ public class ContentAction extends ContextBaseAction {
 	return context.forward("/contents/page.jsp");
     }
 
-    @CreateNodeAction( bundle="CONTENT_RESOURCES", key="option.create.new.page", groupKey="label.module.contents" )
+    @CreateNodeAction(bundle = "CONTENT_RESOURCES", key = "option.create.new.page", groupKey = "label.module.contents")
     public final ActionForward prepareCreateNewPage(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 	final VirtualHost virtualHost = getDomainObject(request, "virtualHostToManageId");
@@ -91,8 +91,8 @@ public class ContentAction extends ContextBaseAction {
 	return forwardToMuneConfiguration(request, virtualHost, node);
     }
 
-    public final ActionForward deletePage(final ActionMapping mapping, final ActionForm form,
-	    final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    public final ActionForward deletePage(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+	    final HttpServletResponse response) throws Exception {
 	final Context context = getContext(request);
 	final INode node = context.getSelectedNode();
 	context.pop(node);
@@ -118,8 +118,8 @@ public class ContentAction extends ContextBaseAction {
 	return context.forward("/contents/newSection.jsp");
     }
 
-    public final ActionForward addSection(final ActionMapping mapping, final ActionForm form,
-	    final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    public final ActionForward addSection(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+	    final HttpServletResponse response) throws Exception {
 	final Context context = getContext(request);
 	final SectionBean sectionBean = getRenderedObject();
 	Section.createNewSection(sectionBean);
@@ -153,8 +153,8 @@ public class ContentAction extends ContextBaseAction {
 	    final ArrayList<Section> originalSections = new ArrayList<Section>(sectionOrders.length);
 	    final ArrayList<Section> sections = new ArrayList<Section>(sectionOrders.length);
 	    int i = 0;
-	    for (final Section section : page.getOrderedSections() ) {
-		if (Long.toString(section.getOID()).equals(originalSectionIds[i])) {
+	    for (final Section section : page.getOrderedSections()) {
+		if (section.getExternalId().equals(originalSectionIds[i])) {
 		    originalSections.add(section);
 		} else {
 		    return viewPage(mapping, form, request, response);
@@ -214,8 +214,8 @@ public class ContentAction extends ContextBaseAction {
 	return forwardToMuneConfiguration(request, virtualHost, node);
     }
 
-    public final ActionForward reorderPages(final ActionMapping mapping, final ActionForm form,
-	    final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    public final ActionForward reorderPages(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+	    final HttpServletResponse response) throws Exception {
 	request.setAttribute("reorderPages", Boolean.TRUE);
 	return viewPage(mapping, form, request, response);
     }
