@@ -44,7 +44,7 @@
 										<bean:define id="confirmDelete"><bean:message
 												bundle="MYORG_RESOURCES" key="label.content.section.delete.confirm"
 												arg0="<%= title.toString() %>"/></bean:define>
-										<bean:define id="sectionOID" name="section" property="externalIdexternalId"/>
+										<bean:define id="sectionOID" name="section" property="externalId"/>
 										<html:link styleId="<%= "delete-section-" +  sectionOID %>" page="/content.do?method=deleteSection" paramId="sectionOid" paramName="section" paramProperty="externalId">
 											<bean:message bundle="MYORG_RESOURCES" key="label.content.section.delete"/>
 										</html:link>
