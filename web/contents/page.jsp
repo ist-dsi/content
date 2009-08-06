@@ -44,7 +44,7 @@
 										<bean:define id="confirmDelete"><bean:message
 												bundle="MYORG_RESOURCES" key="label.content.section.delete.confirm"
 												arg0="<%= title.toString() %>"/></bean:define>
-										<bean:define id="sectionOID" name="section" property="externalId"/>
+										<bean:define id="sectionOID" name="section" property="externalId" type="java.lang.String"/>
 										<html:link styleId="<%= "delete-section-" +  sectionOID %>" page="/content.do?method=deleteSection" paramId="sectionOid" paramName="section" paramProperty="externalId">
 											<bean:message bundle="MYORG_RESOURCES" key="label.content.section.delete"/>
 										</html:link>
@@ -74,7 +74,7 @@
 			<form action="<%= request.getContextPath() %>/content.do" method="post">
 				<input type="hidden" name="method" value="saveSectionOrders"/>
 				<input type="hidden" id="articleOrders" name="articleOrders"/>
-				<bean:define id="nodeOid" name="selectedNode" property="externalId"/>
+				<bean:define id="nodeOid" name="selectedNode" property="externalId" type="java.lang.String"/>
 				<input type="hidden" name="nodeOid" value="<%= nodeOid %>"/>
 				<bean:define id="originalArticleIds"><logic:iterate id="section" name="selectedPage" property="orderedSections" indexId="sindex"><% if (sindex > 0) {%>;<% } %><bean:write name="section" property="externalId"/></logic:iterate></bean:define>
 				<input type="hidden" name="originalArticleIds" value="<%= originalArticleIds %>"/>
