@@ -39,6 +39,7 @@ import module.contents.domain.Section.SectionBean;
 import myorg.domain.VirtualHost;
 import myorg.domain.contents.INode;
 import myorg.domain.contents.Node;
+import myorg.domain.groups.AnyoneGroup;
 import myorg.presentationTier.Context;
 import myorg.presentationTier.LayoutContext;
 import myorg.presentationTier.actions.ContextBaseAction;
@@ -76,6 +77,7 @@ public class ContentAction extends ContextBaseAction {
 	final VirtualHost virtualHost = getDomainObject(request, "virtualHostToManageId");
 	final Node node = getDomainObject(request, "parentOfNodesToManageId");
 	final PageBean pageBean = new PageBean(virtualHost, node);
+	pageBean.setPersistentGroup(AnyoneGroup.getInstance());
 	request.setAttribute("pageBean", pageBean);
 
 	final Context context = getContext(request);
