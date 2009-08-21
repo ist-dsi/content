@@ -1,5 +1,3 @@
-/** package module.contents.domain; **/
-
 /*
  * @(#)domain_model_contents.dml
  *
@@ -25,6 +23,8 @@
  * 
  */
 
+package module.contents.domain;
+
 
 valueType pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString as MultiLanguageString {
     externalizeWith {
@@ -43,45 +43,75 @@ valueType pt.utl.ist.fenix.tools.util.Strings as Strings {
 }
 
 
-class module.contents.domain.PageNode extends myorg.domain.contents.Node {
+class PageNode extends .myorg.domain.contents.Node {
 }
 
-class module.contents.domain.Page {
+class Page {
 	MultiLanguageString title;
 	MultiLanguageString link;
 }
 
-class module.contents.domain.Section {
+class Section {
 	MultiLanguageString title;
 	MultiLanguageString contents;
 	Integer sectionOrder;
 }
 
+class WikiPageNode extends .myorg.domain.contents.Node {
+}
+
+class WikiPage {
+}
+
+class WikiPageVersion {
+	MultiLanguageString title;
+	MultiLanguageString link;
+	MultiLanguageString content;
+	DateTime created;
+}
+
 
 relation MyOrgPage {
-	myorg.domain.MyOrg playsRole myOrg;
-	module.contents.domain.Page playsRole pages {
+	.myorg.domain.MyOrg playsRole myOrg;
+	Page playsRole pages {
 		multiplicity *;
 	}
 }
 
 relation PagePageNode {
-	module.contents.domain.Page playsRole page;
-	module.contents.domain.PageNode playsRole nodes {
+	Page playsRole page;
+	PageNode playsRole nodes {
 		multiplicity *;
 	}
 }
 
 relation MyOrgSection {
-	myorg.domain.MyOrg playsRole myOrg;
-	module.contents.domain.Section playsRole sections {
+	.myorg.domain.MyOrg playsRole myOrg;
+	Section playsRole sections {
 		multiplicity *;
 	}
 }
 
 relation PageSection {
-	module.contents.domain.Page playsRole page;
-	module.contents.domain.Section playsRole sections {
+	Page playsRole page;
+	Section playsRole sections {
 		multiplicity *;
 	}
+}
+
+relation WikiPageNodeWikiPage {
+	WikiPageNode playsRole wikiPageNode;
+	WikiPage playsRole wikiPage;
+}
+
+relation WikiPageWikiPageVersion {
+	WikiPage playsRole wikiPage;
+	WikiPageVersion playsRole wikiPageVersions {
+		multiplicity *;
+	}
+}
+
+relation WikiPageLastWikiPageVersion {
+	WikiPage playsRole wikiPageFromLastVersion;
+	WikiPageVersion playsRole lastWikiPageVersion;
 }

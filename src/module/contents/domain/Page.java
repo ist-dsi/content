@@ -35,6 +35,7 @@ import myorg.domain.VirtualHost;
 import myorg.domain.contents.INode;
 import myorg.domain.contents.Node;
 import myorg.domain.groups.PersistentGroup;
+import myorg.domain.groups.UserGroup;
 import pt.ist.fenixWebFramework.services.Service;
 import pt.ist.fenixWebFramework.util.DomainReference;
 import pt.ist.fenixframework.pstm.Transaction;
@@ -59,6 +60,7 @@ public class Page extends Page_Base {
 	    this();
 	    setParentNode(parentNode);
 	    setVirtualHost(virtualHost);
+	    setPersistentGroup(UserGroup.getInstance());
 	}
 
 	public PageBean(final VirtualHost virtualHost, final Node parentNode, PersistentGroup group) {
