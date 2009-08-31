@@ -1,0 +1,116 @@
+/*
+ * @(#)domain_model_contents.dml
+ *
+ * Copyright 2009 Instituto Superior Tecnico
+ * Founding Authors: João Figueiredo, Luis Cruz, Paulo Abrantes, Susana Fernandes
+ * 
+ *      https://fenix-ashes.ist.utl.pt/
+ * 
+ *   This file is part of the Contents Module for the MyOrg web application.
+ *
+ *   The Contents Module is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU Lesser General Public License as published
+ *   by the Free Software Foundatzion, either version 3 of the License, or
+ *   (at your option) any later version.*
+ *
+ *   The Contents Module is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ *   GNU Lesser General Public License for more details.
+ *
+ *   You should have received a copy of the GNU Lesser General Public License
+ *   along with the Contents Module. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ */
+
+package module.contents.domain;
+
+class VersionedPageNode extends .myorg.domain.contents.Node {
+}
+
+class VersionedPage {
+	MultiLanguageString title;
+}
+
+class PageVersion {
+	DateTime date;
+	MultiLanguageString content;
+	int revision;
+}
+
+class VersionedFile {
+	String presentationName;
+}
+
+class FileVersion extends .module.fileSupport.domain.GenericFile {
+	DateTime date;
+	int revision;
+}
+
+relation PageVersionNode {
+	VersionedPageNode playsRole nodes {
+		multiplicity *;
+	}
+	VersionedPage playsRole page;
+	 
+}
+
+relation PageVersioning {
+	VersionedPage playsRole page;
+	PageVersion playsRole pageVersions {
+		multiplicity *;
+	}
+}
+
+relation PageCurrentVersion {
+	VersionedPage playsRole currentVersionPage;
+	PageVersion playsRole currentVersion;
+}
+
+relation FileCurrentVersion {
+	VersionedFile playsRole currentVersionFile;
+	FileVersion playsRole currentVersion;
+}
+
+relation VersionedPageVersionedFile {
+	VersionedPage playsRole page;
+	VersionedFile playsRole files {
+		multiplicity *;
+	}
+}
+
+relation FileVersioning {
+	VersionedFile playsRole file;
+	FileVersion playsRole fileVersions {
+		multiplicity *;
+	}
+}
+
+relation VersionedPageMyOrg {
+	VersionedPage playsRole versionedPages {
+		multiplicity *;
+	}
+	.myorg.domain.MyOrg playsRole myOrg;
+}
+
+relation VersionedFileMyOrg {
+	VersionedFile playsRole versionedFiles {
+		multiplicity *;
+	}
+	.myorg.domain.MyOrg playsRole myOrg;
+}
+
+relation VersionedPageCreator {
+	PageVersion playsRole pageVersions {
+		multiplicity *;
+	}
+	.myorg.domain.User playsRole creator;
+}
+
+relation VersionedFileCreator {
+	FileVersion playsRole filesVersions {
+		multiplicity *;
+	}
+	.myorg.domain.User playsRole uploader;
+}
+
