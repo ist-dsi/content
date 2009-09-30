@@ -31,7 +31,6 @@ import java.util.Comparator;
 import myorg.domain.MyOrg;
 import pt.ist.fenixWebFramework.services.Service;
 import pt.ist.fenixWebFramework.util.DomainReference;
-import pt.ist.fenixframework.pstm.Transaction;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class Section extends Section_Base {
@@ -108,7 +107,7 @@ public class Section extends Section_Base {
     public void delete() {
 	removePage();
 	removeMyOrg();
-	Transaction.deleteObject(this);
+	deleteDomainObject();
     }
     
 }

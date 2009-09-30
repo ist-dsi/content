@@ -38,7 +38,6 @@ import myorg.domain.groups.PersistentGroup;
 import myorg.domain.groups.UserGroup;
 import pt.ist.fenixWebFramework.services.Service;
 import pt.ist.fenixWebFramework.util.DomainReference;
-import pt.ist.fenixframework.pstm.Transaction;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class Page extends Page_Base {
@@ -136,7 +135,7 @@ public class Page extends Page_Base {
 		section.delete();
 	    }
 	    removeMyOrg();
-	    Transaction.deleteObject(this);
+	    deleteDomainObject();
 	}
     }
 

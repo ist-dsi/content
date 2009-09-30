@@ -1,8 +1,8 @@
 package module.contents.domain;
 
-import org.joda.time.DateTime;
-
 import myorg.applicationTier.Authenticate.UserView;
+
+import org.joda.time.DateTime;
 
 public class FileVersion extends FileVersion_Base implements Comparable<FileVersion> {
 

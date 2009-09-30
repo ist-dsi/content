@@ -2,7 +2,6 @@ package module.contents.domain;
 
 import java.io.Serializable;
 
-import module.contents.domain.Page.PageBean;
 import myorg.domain.VirtualHost;
 import myorg.domain.contents.INode;
 import myorg.domain.contents.Node;
