@@ -46,12 +46,14 @@
 		</ul>
 		<%= ContentContextInjectionRewriter.END_BLOCK_HAS_CONTEXT_PREFIX %>
 		<logic:equal name="selectedVersion" property="currentVersion" value="true">
-			<div id="pageOptions">
-				<ul>
-					<li><html:link page="/pageVersioning.do?method=prepareEditPage" paramId="pageId" paramName="selectedVersion" paramProperty="page.externalId"><bean:message key="link.edit" bundle="MYORG_RESOURCES"/></html:link></li>
-					<li><html:link page="<%= "/pageVersioning.do?method=addFile&versionId=" + selectedVersionId.toString() %>">Add FILE</html:link></li>
-				</ul>
-			</div>
+			<logic:present role="myorg.domain.RoleType.MANAGER">
+				<div id="pageOptions">
+					<ul>
+						<li><html:link page="/pageVersioning.do?method=prepareEditPage" paramId="pageId" paramName="selectedVersion" paramProperty="page.externalId"><bean:message key="link.edit" bundle="MYORG_RESOURCES"/></html:link></li>
+						<li><html:link page="<%= "/pageVersioning.do?method=addFile&versionId=" + selectedVersionId.toString() %>">Add FILE</html:link></li>
+					</ul>
+				</div>
+			</logic:present>
 		</logic:equal>
 		<div id="pageFiles">
 			<ul class="blockList">
@@ -59,8 +61,10 @@
 	
 				<li> file <%= index %> V. <fr:view name="file" property="revision"/> (current: <fr:view name="file" property="file.currentRevision"/>) 
 				<logic:equal name="selectedVersion" property="currentVersion" value="true">
-					<bean:define id="versionedFileId" name="file" property="file.externalId"/>
-					<html:link page="<%= "/pageVersioning.do?method=addFileVersion&versionId=" + selectedVersionId.toString() + "&versionFileId=" + versionedFileId%>">Add Version</html:link>
+					<logic:present role="myorg.domain.RoleType.MANAGER">
+						<bean:define id="versionedFileId" name="file" property="file.externalId"/>
+						<html:link page="<%= "/pageVersioning.do?method=addFileVersion&versionId=" + selectedVersionId.toString() + "&versionFileId=" + versionedFileId%>">Add Version</html:link>
+					</logic:present>
 				</logic:equal>
 				</li>		
 			</logic:iterate>
@@ -74,7 +78,9 @@
 						V <fr:view name="version" property="revision"/> by <fr:view name="version" property="creator.presentationName"/> in <fr:view name="version" property="date"/>
 						(<html:link page="<%= "/pageVersioning.do?method=viewVersion&versionId=" + versionId%>">VIEW</html:link>
 						<logic:equal name="version" property="currentVersion" value="false">
-							,<html:link page="<%= "/pageVersioning.do?method=revertPage&versionId=" + versionId%>" paramId="pageId" paramName="selectedVersion" paramProperty="page.externalId">REVERT TO</html:link>
+							<logic:present role="myorg.domain.RoleType.MANAGER">
+								,<html:link page="<%= "/pageVersioning.do?method=revertPage&versionId=" + versionId%>" paramId="pageId" paramName="selectedVersion" paramProperty="page.externalId">REVERT TO</html:link>
+							</logic:present>
 						</logic:equal>
 						)
 					</li>
