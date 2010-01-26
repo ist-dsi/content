@@ -6,7 +6,6 @@ import myorg.domain.VirtualHost;
 import myorg.domain.contents.INode;
 import myorg.domain.contents.Node;
 import pt.ist.fenixWebFramework.services.Service;
-import pt.ist.fenixWebFramework.util.DomainReference;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class WikiPage extends WikiPage_Base {
@@ -15,8 +14,8 @@ public class WikiPage extends WikiPage_Base {
 
 	private static final long serialVersionUID = 1L;
 
-	DomainReference<Node> parentNode;
-	DomainReference<VirtualHost> virtualHost;
+	Node parentNode;
+	VirtualHost virtualHost;
 	MultiLanguageString title;
 	MultiLanguageString link;
 	MultiLanguageString content;
@@ -51,28 +50,28 @@ public class WikiPage extends WikiPage_Base {
 	}
 
 	public void setContent(MultiLanguageString content) {
-	    this.content = content ;
+	    this.content = content;
 	}
 
 	public Node getParentNode() {
-	    return parentNode == null ? null : parentNode.getObject();
+	    return parentNode;
 	}
 
 	public void setParentNode(final Node parentNode) {
-	    this.parentNode = parentNode == null ? null : new DomainReference<Node>(parentNode);
+	    this.parentNode = parentNode;
 	}
 
 	public VirtualHost getVirtualHost() {
-	    return virtualHost == null ? null : virtualHost.getObject();
+	    return virtualHost;
 	}
 
 	public void setVirtualHost(final VirtualHost virtualHost) {
-	    this.virtualHost = virtualHost == null ? null : new DomainReference<VirtualHost>(virtualHost);
+	    this.virtualHost = virtualHost;
 	}
     }
 
     public WikiPage() {
-        super();
+	super();
     }
 
     public WikiPage(final WikiPageVersionBean wikiPageVersionBean) {

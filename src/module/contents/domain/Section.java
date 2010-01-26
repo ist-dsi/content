@@ -30,7 +30,6 @@ import java.util.Comparator;
 
 import myorg.domain.MyOrg;
 import pt.ist.fenixWebFramework.services.Service;
-import pt.ist.fenixWebFramework.util.DomainReference;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class Section extends Section_Base {
@@ -51,7 +50,7 @@ public class Section extends Section_Base {
 
 	MultiLanguageString title;
 	MultiLanguageString contents;
-	DomainReference<Page> page;
+	Page page;
 
 	public SectionBean(final Page page) {
 	    setPage(page);
@@ -60,26 +59,31 @@ public class Section extends Section_Base {
 	public MultiLanguageString getTitle() {
 	    return title;
 	}
+
 	public void setTitle(MultiLanguageString title) {
 	    this.title = title;
 	}
+
 	public MultiLanguageString getContents() {
 	    return contents;
 	}
+
 	public void setContents(MultiLanguageString contents) {
 	    this.contents = contents;
 	}
+
 	public Page getPage() {
-	    return page == null ? null : page.getObject();
+	    return page;
 	}
+
 	public void setPage(Page page) {
-	    this.page = page == null ? null : new DomainReference<Page>(page);
+	    this.page = page;
 	}
     }
 
     public Section() {
-        super();
-        setMyOrg(MyOrg.getInstance());
+	super();
+	setMyOrg(MyOrg.getInstance());
     }
 
     public Section(final SectionBean sectionBean) {
@@ -109,5 +113,5 @@ public class Section extends Section_Base {
 	removeMyOrg();
 	deleteDomainObject();
     }
-    
+
 }

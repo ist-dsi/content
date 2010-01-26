@@ -37,7 +37,6 @@ import myorg.domain.contents.Node;
 import myorg.domain.groups.PersistentGroup;
 import myorg.domain.groups.UserGroup;
 import pt.ist.fenixWebFramework.services.Service;
-import pt.ist.fenixWebFramework.util.DomainReference;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class Page extends Page_Base {
@@ -48,9 +47,9 @@ public class Page extends Page_Base {
 
 	MultiLanguageString title;
 	MultiLanguageString link;
-	DomainReference<Node> parentNode;
-	DomainReference<VirtualHost> virtualHost;
-	DomainReference<PersistentGroup> group;
+	Node parentNode;
+	VirtualHost virtualHost;
+	PersistentGroup group;
 
 	public PageBean() {
 	}
@@ -86,27 +85,27 @@ public class Page extends Page_Base {
 	}
 
 	public Node getParentNode() {
-	    return parentNode == null ? null : parentNode.getObject();
+	    return parentNode;
 	}
 
 	public void setParentNode(final Node parentNode) {
-	    this.parentNode = parentNode == null ? null : new DomainReference<Node>(parentNode);
+	    this.parentNode = parentNode;
 	}
 
 	public VirtualHost getVirtualHost() {
-	    return virtualHost == null ? null : virtualHost.getObject();
+	    return virtualHost;
 	}
 
 	public void setVirtualHost(final VirtualHost virtualHost) {
-	    this.virtualHost = virtualHost == null ? null : new DomainReference<VirtualHost>(virtualHost);
+	    this.virtualHost = virtualHost;
 	}
 
 	public PersistentGroup getPersistentGroup() {
-	    return group == null ? null : group.getObject();
+	    return group;
 	}
 
 	public void setPersistentGroup(final PersistentGroup group) {
-	    this.group = group == null ? null : new DomainReference<PersistentGroup>(group);
+	    this.group = group;
 	}
     }
 
