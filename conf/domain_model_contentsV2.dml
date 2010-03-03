@@ -42,7 +42,7 @@ class VersionedFile {
 	String presentationName;
 }
 
-class FileVersion extends .module.fileSupport.domain.GenericFile {
+class FileVersion extends .pt.ist.fenixframework.plugins.fileSupport.domain.GenericFile {
 	DateTime date;
 	int revision;
 }
