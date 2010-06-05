@@ -22,8 +22,9 @@
 			<bean:message key="versionedPage.warn.newerVersionAvailable" bundle="CONTENT_RESOURCES"/>
 		</div>
 	</logic:equal>
-	
+<!-- 
 	<em><bean:message key="label.version.description" bundle="CONTENT_RESOURCES" arg0="<%= currentRevision.toString() %>" arg1="<%= editor.toString() %>"/></em>
+ -->
 
 	<script type="text/javascript">
 	$(function() {
