@@ -35,28 +35,36 @@
 	<div class="pageContext" >
 	<fr:view name="selectedVersion" property="content" type="pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString" layout="html"/>
 
-	<div id="tabs">
+	<div id="tabs" style="font-size: 10px;">
 		<%= ContentContextInjectionRewriter.BLOCK_HAS_CONTEXT_PREFIX %>
 		<ul>
 			<logic:equal name="selectedVersion" property="currentVersion" value="true">
-			<li><%= GenericChecksumRewriter.NO_CHECKSUM_PREFIX %><a href="#pageOptions">Opções</a></li>
+				<logic:equal name="selectedVersion" property="currentVersion" value="true">
+					<logic:present role="myorg.domain.RoleType.MANAGER">
+						<li><%= GenericChecksumRewriter.NO_CHECKSUM_PREFIX %><a href="#pageOptions"><bean:message key="label.wiki.options" bundle="CONTENT_RESOURCES"/></a></li>
+					</logic:present>
+				</logic:equal>
 			</logic:equal>
 			
-			<li><%= GenericChecksumRewriter.NO_CHECKSUM_PREFIX %><a href="#pageFiles">Ficheiros</a></li>
-			<li><%= GenericChecksumRewriter.NO_CHECKSUM_PREFIX %><a href="#pageVersions">Versões</a></li>
+			<logic:notEmpty name="selectedVersion" property="files">
+				<li><%= GenericChecksumRewriter.NO_CHECKSUM_PREFIX %><a href="#pageFiles"><bean:message key="label.wiki.files" bundle="CONTENT_RESOURCES"/></a></li>
+			</logic:notEmpty>
+			
+			<li><%= GenericChecksumRewriter.NO_CHECKSUM_PREFIX %><a href="#pageVersions"><bean:message key="label.wiki.versions" bundle="CONTENT_RESOURCES"/></a></li>
 		</ul>
 		<%= ContentContextInjectionRewriter.END_BLOCK_HAS_CONTEXT_PREFIX %>
 		<logic:equal name="selectedVersion" property="currentVersion" value="true">
 			<logic:present role="myorg.domain.RoleType.MANAGER">
 				<div id="pageOptions">
 					<ul>
-						<li><html:link page="/pageVersioning.do?method=prepareEditPage" paramId="pageId" paramName="selectedVersion" paramProperty="page.externalId"><bean:message key="link.edit" bundle="MYORG_RESOURCES"/></html:link></li>
-						<li><html:link page="<%= "/pageVersioning.do?method=addFile&versionId=" + selectedVersionId.toString() %>">Add FILE</html:link></li>
+						<li><html:link page="/pageVersioning.do?method=prepareEditPage" paramId="pageId" paramName="selectedVersion" paramProperty="page.externalId"><bean:message key="label.wiki.action.edit" bundle="CONTENT_RESOURCES"/></html:link></li>
+						<li><html:link page="<%= "/pageVersioning.do?method=addFile&versionId=" + selectedVersionId.toString() %>"><bean:message key="label.wiki.action.addFile" bundle="CONTENT_RESOURCES"/></html:link></li>
 					</ul>
 				</div>
 			</logic:present>
 		</logic:equal>
-		<div id="pageFiles">
+		<logic:notEmpty name="selectedVersion" property="files">
+		<div id="pageFiles" >
 			<ul class="blockList">
 			<logic:iterate id="file" name="selectedVersion" property="files" indexId="index">
 	
@@ -71,16 +79,23 @@
 			</logic:iterate>
 			</ul>
 		</div>
+		</logic:notEmpty>
 		<div id="pageVersions">
 			<ul class="blockList">
 				<logic:iterate id="version" name="selectedVersion"  property="page.pageVersionsSet">
 					<bean:define id="versionId" name="version" property="externalId"/>
 					<li>	
-						V <fr:view name="version" property="revision"/> by <fr:view name="version" property="creator.presentationName"/> in <fr:view name="version" property="date"/>
-						(<html:link page="<%= "/pageVersioning.do?method=viewVersion&versionId=" + versionId%>">VIEW</html:link>
+						<bean:define id="revision" name="version" property="revision"/>
+						<bean:define id="author" name="version" property="creator.presentationName"/>
+						<bean:define id="date">
+							<fr:view name="version" property="date"/>
+						</bean:define>
+						<bean:message key="label.wiki.info.version" bundle="CONTENT_RESOURCES" arg0="<%= revision.toString() %>" arg1="<%= author.toString()%>" arg2="<%= date.toString() %>"/>
+						
+						(<html:link page="<%= "/pageVersioning.do?method=viewVersion&versionId=" + versionId%>"><bean:message key="label.wiki.action.view" bundle="CONTENT_RESOURCES"/></html:link>
 						<logic:equal name="version" property="currentVersion" value="false">
 							<logic:present role="myorg.domain.RoleType.MANAGER">
-								,<html:link page="<%= "/pageVersioning.do?method=revertPage&versionId=" + versionId%>" paramId="pageId" paramName="selectedVersion" paramProperty="page.externalId">REVERT TO</html:link>
+								,<html:link page="<%= "/pageVersioning.do?method=revertPage&versionId=" + versionId%>" paramId="pageId" paramName="selectedVersion" paramProperty="page.externalId"><bean:message key="label.wiki.action.revertToThis" bundle="CONTENT_RESOURCES"/></html:link>
 							</logic:present>
 						</logic:equal>
 						)
