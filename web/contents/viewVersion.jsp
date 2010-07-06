@@ -26,6 +26,8 @@
 	<em><bean:message key="label.version.description" bundle="CONTENT_RESOURCES" arg0="<%= currentRevision.toString() %>" arg1="<%= editor.toString() %>"/></em>
  -->
 
+
+	<logic:equal name="selectedVersion" property="page.currentUserAbleToViewOptions" value="true">
 	<script type="text/javascript">
 	$(function() {
 		$("#tabs").tabs();
@@ -59,6 +61,12 @@
 					<ul>
 						<li><html:link page="/pageVersioning.do?method=prepareEditPage" paramId="pageId" paramName="selectedVersion" paramProperty="page.externalId"><bean:message key="label.wiki.action.edit" bundle="CONTENT_RESOURCES"/></html:link></li>
 						<li><html:link page="<%= "/pageVersioning.do?method=addFile&versionId=" + selectedVersionId.toString() %>"><bean:message key="label.wiki.action.addFile" bundle="CONTENT_RESOURCES"/></html:link></li>
+						<logic:equal name="version" property="page.locked" value="false">
+							<li><html:link page="<%= "/pageVersioning.do?method=lockPage&versionId=" + selectedVersionId.toString() %>"><bean:message key="label.wiki.action.lockPage" bundle="CONTENT_RESOURCES"/></html:link></li>
+						</logic:equal>
+						<logic:equal name="version" property="page.locked" value="true">
+							<li><html:link page="<%= "/pageVersioning.do?method=unlockPage&versionId=" + selectedVersionId.toString() %>"><bean:message key="label.wiki.action.unlockPage" bundle="CONTENT_RESOURCES"/></html:link></li>
+						</logic:equal>
 					</ul>
 				</div>
 			</logic:present>
@@ -106,4 +114,5 @@
 	</div>
 			
 	</div>
+	</logic:equal>
 </logic:present>

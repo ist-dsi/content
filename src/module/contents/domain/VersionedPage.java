@@ -2,6 +2,9 @@ package module.contents.domain;
 
 import java.util.List;
 
+import org.apache.ojb.otm.states.IllegalObjectStateException;
+
+import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.MyOrg;
 import myorg.domain.User;
 import myorg.domain.VirtualHost;
@@ -71,5 +74,33 @@ public class VersionedPage extends VersionedPage_Base {
 
     public List<FileVersion> getFilesForVersion(PageVersion pageVersion) {
 	return pageVersion.getFiles();
+    }
+
+    @Override
+    public void setLockPage(Boolean lockPage) {
+	throw new UnsupportedOperationException("error cannot use setLockPage() use lock and unlock methods inteads");
+    }
+
+    @Service
+    public void lock() {
+	super.setLockPage(Boolean.TRUE);
+    }
+
+    @Service
+    public void unlock() {
+	super.setLockPage(Boolean.FALSE);
+    }
+
+    public boolean isLocked() {
+	Boolean pageLocked = getLockPage();
+	return pageLocked != null && pageLocked;
+    }
+
+    public boolean isUserAbleToViewOptions(User user) {
+	return !isLocked() || (user != null && user.hasRoleType(myorg.domain.RoleType.MANAGER));
+    }
+
+    public boolean isCurrentUserAbleToViewOptions() {
+	return isUserAbleToViewOptions(UserView.getCurrentUser());
     }
 }

@@ -32,6 +32,7 @@ class VersionedPageNode extends .myorg.domain.contents.Node {
 
 class VersionedPage {
 	MultiLanguageString title;
+	Boolean lockPage;
 }
 
 class PageVersion {

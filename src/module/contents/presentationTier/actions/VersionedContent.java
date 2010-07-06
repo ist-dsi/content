@@ -59,10 +59,10 @@ public class VersionedContent extends ContextBaseAction {
 
     public final ActionForward viewPage(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) throws Exception {
-	
+
 	final Context context = getContext(request);
 	VersionedPageNode node = (VersionedPageNode) context.getSelectedNode();
-	return viewPageVersion(request,node.getPage().getCurrentVersion());
+	return viewPageVersion(request, node.getPage().getCurrentVersion());
     }
 
     public final ActionForward prepareEditPage(final ActionMapping mapping, final ActionForm form,
@@ -79,14 +79,14 @@ public class VersionedContent extends ContextBaseAction {
 	VersionedPage page = getDomainObject(request, "pageId");
 	VersionedPageBean bean = getRenderedObject("pageBean");
 	page.edit(bean);
-	return viewPageVersion(request,page.getCurrentVersion()); 
+	return viewPageVersion(request, page.getCurrentVersion());
     }
 
     public final ActionForward recoverPage(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) throws Exception {
 	VersionedPage page = getDomainObject(request, "pageId");
 	page.recover();
-	return viewPageVersion(request,page.getCurrentVersion());
+	return viewPageVersion(request, page.getCurrentVersion());
     }
 
     public final ActionForward revertPage(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
@@ -94,20 +94,20 @@ public class VersionedContent extends ContextBaseAction {
 	VersionedPage page = getDomainObject(request, "pageId");
 	PageVersion version = getDomainObject(request, "versionId");
 	page.revertTo(version);
-	return viewPageVersion(request,page.getCurrentVersion()); 
+	return viewPageVersion(request, page.getCurrentVersion());
     }
 
     public final ActionForward viewVersion(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) throws Exception {
 	PageVersion version = getDomainObject(request, "versionId");
-	return viewPageVersion(request,version); 
+	return viewPageVersion(request, version);
     }
 
     public final ActionForward addFile(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) throws Exception {
 	PageVersion version = getDomainObject(request, "versionId");
 	s1(version);
-	return viewPageVersion(request,version); 
+	return viewPageVersion(request, version);
     }
 
     @Service
@@ -121,6 +121,23 @@ public class VersionedContent extends ContextBaseAction {
 	PageVersion version = getDomainObject(request, "versionId");
 
 	file.addVersion();
-	return viewPageVersion(request,version); 
+	return viewPageVersion(request, version);
     }
+
+    public final ActionForward lockPage(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+	    final HttpServletResponse response) {
+	PageVersion version = getDomainObject(request, "versionId");
+	version.getPage().lock();
+
+	return viewPageVersion(request, version);
+    }
+
+    public final ActionForward unlockPage(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+	    final HttpServletResponse response) {
+	PageVersion version = getDomainObject(request, "versionId");
+	version.getPage().unlock();
+
+	return viewPageVersion(request, version);
+    }
+
 }
