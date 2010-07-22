@@ -27,16 +27,18 @@
  -->
 
 
-	<logic:equal name="selectedVersion" property="page.currentUserAbleToViewOptions" value="true">
-	<script type="text/javascript">
-	$(function() {
-		$("#tabs").tabs();
-	});
-	</script>
+	
 	
 	<div class="pageContext" >
 	<fr:view name="selectedVersion" property="content" type="pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString" layout="html"/>
 
+	<logic:equal name="selectedVersion" property="page.currentUserAbleToViewOptions" value="true">
+		<script type="text/javascript">
+		$(function() {
+			$("#tabs").tabs();
+		});
+		</script>
+		
 	<div id="tabs" style="font-size: 10px;">
 		<%= ContentContextInjectionRewriter.BLOCK_HAS_CONTEXT_PREFIX %>
 		<ul>
@@ -113,6 +115,7 @@
 		</div>
 	</div>
 			
-	</div>
 	</logic:equal>
+	</div>
+	
 </logic:present>
