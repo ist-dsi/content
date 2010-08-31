@@ -16,5 +16,11 @@ public class WikiPageVersion extends WikiPageVersion_Base {
 	setContent(content);
 	wikiPage.setLastWikiPageVersion(this);
     }
+
+    public void delete() {
+	removeWikiPageFromLastVersion();
+	removeWikiPage();
+	deleteDomainObject();
+    }
     
 }

@@ -86,4 +86,13 @@ public class WikiPage extends WikiPage_Base {
 	return wikiPage.getWikiPageNode();
     }
 
+    public void delete() {
+	removeWikiPageNode();
+	removeLastWikiPageVersion();
+	for (final WikiPageVersion wikiPageVersion : getWikiPageVersionsSet()) {
+	    wikiPageVersion.delete();
+	}
+	deleteDomainObject();
+    }
+
 }

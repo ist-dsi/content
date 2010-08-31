@@ -33,5 +33,14 @@ public class WikiPageNode extends WikiPageNode_Base {
 	return wikiPageVersion.getLink();
 
     }
-    
+
+    @Override
+    public void delete() {
+	final WikiPage wikiPage = getWikiPage();
+	if (wikiPage != null) {
+	    wikiPage.delete();
+	}
+        super.delete();
+    }
+
 }
