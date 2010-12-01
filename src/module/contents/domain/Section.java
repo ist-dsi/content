@@ -25,11 +25,10 @@
 
 package module.contents.domain;
 
-import java.io.Serializable;
 import java.util.Comparator;
 
-import myorg.domain.MyOrg;
 import pt.ist.fenixWebFramework.services.Service;
+import pt.utl.ist.fenix.tools.util.i18n.Language;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class Section extends Section_Base {
@@ -44,74 +43,38 @@ public class Section extends Section_Base {
 
     };
 
-    public static class SectionBean implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-
-	MultiLanguageString title;
-	MultiLanguageString contents;
-	Page page;
-
-	public SectionBean(final Page page) {
-	    setPage(page);
-	}
-
-	public MultiLanguageString getTitle() {
-	    return title;
-	}
-
-	public void setTitle(MultiLanguageString title) {
-	    this.title = title;
-	}
-
-	public MultiLanguageString getContents() {
-	    return contents;
-	}
-
-	public void setContents(MultiLanguageString contents) {
-	    this.contents = contents;
-	}
-
-	public Page getPage() {
-	    return page;
-	}
-
-	public void setPage(Page page) {
-	    this.page = page;
-	}
-    }
-
-    public Section() {
+    public Section(final Container container) {
 	super();
-	setMyOrg(MyOrg.getInstance());
-    }
-
-    public Section(final SectionBean sectionBean) {
-	this();
-	setTitle(sectionBean.getTitle());
-	setContents(sectionBean.getContents());
-	setPage(sectionBean.getPage());
-    }
-
-    @Service
-    public static void createNewSection(final SectionBean sectionBean) {
-	new Section(sectionBean);
+	setContainer(container);
     }
 
     @Override
-    public void setPage(final Page page) {
-	if (page != null) {
-	    final int order = page.getSectionsCount() + 1;
+    public void setContainer(final Container container) {
+	if (container != null && container != getContainer()) {
+	    final int order = container.getSectionsCount() + 1;
 	    setSectionOrder(Integer.valueOf(order));
 	}
-	super.setPage(page);
+	super.setContainer(container);
     }
 
     @Service
     public void delete() {
-	removePage();
-	removeMyOrg();
-	deleteDomainObject();
+	removeContainer();
+	super.delete();
+    }
+
+    public void setContent(final String content) {
+	final MultiLanguageString contents = new MultiLanguageString();
+	final Language userLanguage = Language.getUserLanguage();
+	if (getContents() != null) {
+	    for (final Language language : getContents().getAllLanguages()) {
+		if (language != userLanguage) {
+		    contents.setContent(language, getContents().getContent(language));
+		}
+	    }
+	}
+	contents.setContent(content);
+	setContents(contents);
     }
 
 }

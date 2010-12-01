@@ -25,123 +25,21 @@
 
 package module.contents.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 import myorg.domain.MyOrg;
-import myorg.domain.VirtualHost;
-import myorg.domain.contents.INode;
-import myorg.domain.contents.Node;
-import myorg.domain.groups.PersistentGroup;
-import myorg.domain.groups.UserGroup;
+import myorg.util.BundleUtil;
 import pt.ist.fenixWebFramework.services.Service;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class Page extends Page_Base {
 
-    public static class PageBean implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-
-	MultiLanguageString title;
-	MultiLanguageString link;
-	Node parentNode;
-	VirtualHost virtualHost;
-	PersistentGroup group;
-
-	public PageBean() {
-	}
-
-	public PageBean(final VirtualHost virtualHost, final Node parentNode) {
-	    this();
-	    setParentNode(parentNode);
-	    setVirtualHost(virtualHost);
-	    setPersistentGroup(UserGroup.getInstance());
-	}
-
-	public PageBean(final VirtualHost virtualHost, final Node parentNode, PersistentGroup group) {
-	    this();
-	    setParentNode(parentNode);
-	    setVirtualHost(virtualHost);
-	    setPersistentGroup(group);
-	}
-
-	public MultiLanguageString getTitle() {
-	    return title;
-	}
-
-	public void setTitle(MultiLanguageString title) {
-	    this.title = title;
-	}
-
-	public MultiLanguageString getLink() {
-	    return link;
-	}
-
-	public void setLink(MultiLanguageString link) {
-	    this.link = link;
-	}
-
-	public Node getParentNode() {
-	    return parentNode;
-	}
-
-	public void setParentNode(final Node parentNode) {
-	    this.parentNode = parentNode;
-	}
-
-	public VirtualHost getVirtualHost() {
-	    return virtualHost;
-	}
-
-	public void setVirtualHost(final VirtualHost virtualHost) {
-	    this.virtualHost = virtualHost;
-	}
-
-	public PersistentGroup getPersistentGroup() {
-	    return group;
-	}
-
-	public void setPersistentGroup(final PersistentGroup group) {
-	    this.group = group;
-	}
-    }
-
     public Page() {
 	super();
 	setMyOrg(MyOrg.getInstance());
-    }
-
-    public Page(final PageBean pageBean) {
-	this();
-	setTitle(pageBean.getTitle());
-	setLink(pageBean.getLink());
-	final PageNode pageNode = new PageNode(pageBean.getVirtualHost(), pageBean.getParentNode(), this, null);
-	pageNode.setAccessibilityGroup(pageBean.getPersistentGroup());
-    }
-
-    @Service
-    public static INode createNewPage(final PageBean pageBean) {
-	final Page page = new Page(pageBean);
-	return page.getNodesIterator().next();
-    }
-
-    public void deleteIfDisconnected() {
-	if (!hasAnyNodes()) {
-	    for (final Section section : getSectionsSet()) {
-		section.delete();
-	    }
-	    removeMyOrg();
-	    deleteDomainObject();
-	}
-    }
-
-    public Set<Section> getOrderedSections() {
-	final Set<Section> sections = new TreeSet<Section>(Section.COMPARATOR_BY_ORDER);
-	sections.addAll(getSectionsSet());
-	return sections;
+	setLink(BundleUtil.getMultilanguageString("resources.ContentResources", "label.Page.link.defualt"));
     }
 
     @Service
@@ -159,6 +57,24 @@ public class Page extends Page_Base {
 	    }
 	    section.setSectionOrder(Integer.valueOf(i++));
 	}
+    }
+
+    @Override
+    public void delete() {
+	removeMyOrg();
+        super.delete();
+    }
+
+    @Service
+    public static Page createNewPage() {
+	return new Page();
+    }
+
+    @Service
+    public void setTitle(final String content) {
+	final MultiLanguageString title = getTitle();
+	title.setContent(content);
+	setTitle(title);
     }
 
 }

@@ -42,32 +42,18 @@ valueType pt.utl.ist.fenix.tools.util.Strings as Strings {
     internalizeWith importFromString();
 }
 
-
-class PageNode extends .myorg.domain.contents.Node {
+class Container {
+	String ojbConcreteClass;
+	MultiLanguageString title;
 }
 
-class Page {
-	MultiLanguageString title;
+class Page extends Container {
 	MultiLanguageString link;
 }
 
-class Section {
-	MultiLanguageString title;
+class Section extends Container {
 	MultiLanguageString contents;
 	Integer sectionOrder;
-}
-
-class WikiPageNode extends .myorg.domain.contents.Node {
-}
-
-class WikiPage {
-}
-
-class WikiPageVersion {
-	MultiLanguageString title;
-	MultiLanguageString link;
-	MultiLanguageString content;
-	DateTime created;
 }
 
 
@@ -78,40 +64,10 @@ relation MyOrgPage {
 	}
 }
 
-relation PagePageNode {
-	Page playsRole page;
-	PageNode playsRole nodes {
-		multiplicity *;
-	}
-}
-
-relation MyOrgSection {
-	.myorg.domain.MyOrg playsRole myOrg;
+relation ContainerSection {
+	Container playsRole container;
 	Section playsRole sections {
 		multiplicity *;
 	}
 }
 
-relation PageSection {
-	Page playsRole page;
-	Section playsRole sections {
-		multiplicity *;
-	}
-}
-
-relation WikiPageNodeWikiPage {
-	WikiPageNode playsRole wikiPageNode;
-	WikiPage playsRole wikiPage;
-}
-
-relation WikiPageWikiPageVersion {
-	WikiPage playsRole wikiPage;
-	WikiPageVersion playsRole wikiPageVersions {
-		multiplicity *;
-	}
-}
-
-relation WikiPageLastWikiPageVersion {
-	WikiPage playsRole wikiPageFromLastVersion;
-	WikiPageVersion playsRole lastWikiPageVersion;
-}
