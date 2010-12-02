@@ -30,7 +30,7 @@ public class CreateVaadinWikiInterface extends ContextBaseAction {
 	final Page page = Page.createNewPage();
 
 	VaadinNode.createVaadinNode(virtualHost, node, "resources.ContentResources", "add.interface.vaadinWiki",
-		"SectionedPage-" + page.getExternalId(), UserGroup.getInstance());
+		"SectionedPageViewer-" + page.getExternalId(), UserGroup.getInstance());
 
 	return forwardToMuneConfiguration(request, virtualHost, node);
     }
