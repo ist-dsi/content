@@ -12,11 +12,12 @@ import pt.ist.fenixframework.pstm.AbstractDomainObject;
 
 import com.vaadin.ui.AbstractLayout;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.SplitPanel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Window.Notification;
 import com.vaadin.ui.themes.BaseTheme;
 
@@ -53,20 +54,43 @@ public class SectionedPageViewer extends ContentComponent {
 
 	if (canEditPage()) {
 	    layout.addComponent(notificationLayout);
-	    notificationLayout.addComponent(new Label("<!-- Place holder -->", Label.CONTENT_XHTML));
 	}
 
-	addTag(layout, "h2", page.getTitle().getContent());
+	final SplitPanel verticalSplitPanel = new SplitPanel();
+	verticalSplitPanel.setHeight("500px");
+	verticalSplitPanel.setWidth("100%");
+        // vert.setOrientation(SplitPanel.ORIENTATION_VERTICAL); // default
+	verticalSplitPanel.setSplitPosition(55, SplitPanel.UNITS_PIXELS);
+	verticalSplitPanel.setLocked(true);
+	layout.addComponent(verticalSplitPanel);
 
-	layout.addComponent(menu);
+	addTag(verticalSplitPanel, "h2", page.getTitle().getContent());
+
+	final SplitPanel horizontalSplitPanel = new SplitPanel();
+        horizontalSplitPanel.setOrientation(SplitPanel.ORIENTATION_HORIZONTAL);
+        horizontalSplitPanel.setSplitPosition(25); // percent
+//        horizontalSplitPanel.setSizeFull();
+
+	final VerticalLayout leftLayout = new VerticalLayout();
+	leftLayout.setSpacing(true);
+//	leftLayout.setSizeFull();
+	leftLayout.addComponent(menu);
 	renderMenu();
 	if (canEditPage()) {
-	    addAddSectionButton(layout);
+	    addAddSectionButton(leftLayout);
 	}
+	horizontalSplitPanel.addComponent(leftLayout);
 
-	addSections(layout, sections);
+	final VerticalLayout rightLayout = new VerticalLayout();
+	rightLayout.setSpacing(true);
+	rightLayout.setMargin(true);
+//	rightLayout.setSizeFull();
+	addSections(rightLayout, sections);
+	horizontalSplitPanel.addComponent(rightLayout);
 
-        super.attach();
+	verticalSplitPanel.addComponent(horizontalSplitPanel);
+
+	super.attach();
     }
 
     private void renderMenu() {
@@ -96,15 +120,15 @@ public class SectionedPageViewer extends ContentComponent {
     private void addSection(final AbstractLayout layout, final Section section) {
 	final VerticalLayout sectionLayout = createVerticalLayout();
 	layout.addComponent(sectionLayout);
-	redrawSection(sectionLayout, section);
+	redrawSection(layout, sectionLayout, section);
 	addSections(layout, section.getSections());
     }
 
-    private void redrawSection(final AbstractLayout sectionLayout, final Section section) {
+    private void redrawSection(final AbstractLayout layout, final AbstractLayout sectionLayout, final Section section) {
 	addTag(sectionLayout, "a", null, "name", section.getReference());
 	addTag(sectionLayout, "h" + (2 + section.levelFromTop()), section.getNumberedTitle());
 	if (canEditPage()) {
-	    addEditSectionButton(sectionLayout, section);
+	    addEditSectionButton(layout, sectionLayout, section);
 	}
 	addTag(sectionLayout, "div", section.getContent());
     }
@@ -160,7 +184,6 @@ public class SectionedPageViewer extends ContentComponent {
 
     private void resertSaveChangesLayout() {
 	final VerticalLayout verticalLayout = new VerticalLayout();
-	verticalLayout.addComponent(new Label("<!-- Place holder -->", Label.CONTENT_XHTML));
 	final AbstractLayout layout = (AbstractLayout) getCompositionRoot();
 	layout.replaceComponent(notificationLayout, verticalLayout);
 	notificationLayout = verticalLayout;
@@ -191,7 +214,7 @@ public class SectionedPageViewer extends ContentComponent {
 	});
     }
 
-    private void addEditSectionButton(final AbstractLayout sectionLayout, final Section section) {
+    private void addEditSectionButton(final AbstractLayout layout, final AbstractLayout sectionLayout, final Section section) {
 	final Button button = new Button(getMessage("label.edit"));
 	button.setStyleName(BaseTheme.BUTTON_LINK);
 	sectionLayout.addComponent(button);
@@ -200,7 +223,6 @@ public class SectionedPageViewer extends ContentComponent {
 	    public void buttonClick(ClickEvent event) {
 		final ContentEditorLayout contentEditorLayout = new ContentEditorLayout(section.getTitle(), section.getContent());
 
-		final AbstractLayout layout = (AbstractLayout) getCompositionRoot();
 		layout.replaceComponent(sectionLayout, contentEditorLayout);
 
 		contentEditorLayout.setContentEditorSaveListner(new ContentEditorSaveListner() {
@@ -209,7 +231,7 @@ public class SectionedPageViewer extends ContentComponent {
 			section.setTitle(title);
 			section.setContent(content);
 			final VerticalLayout sectionLayout = createVerticalLayout();
-			redrawSection(sectionLayout, section);
+			redrawSection(layout, sectionLayout, section);
 			layout.replaceComponent(contentEditorLayout, sectionLayout);
 			renderMenu();
 			notifyChanges();

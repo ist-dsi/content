@@ -33,16 +33,17 @@ public class ContentEditorLayout extends VerticalLayout {
 
     public ContentEditorLayout() {
 	setSpacing(true);
+	setMargin(true);
 	setSizeUndefined();
 
 	titleField.setImmediate(true);
-	titleField.setColumns(75);
+	titleField.setColumns(50);
 	addComponent(titleField);
 
 	richTextArea.setNullSettingAllowed(true);
 	richTextArea.setNullRepresentation(StringUtils.EMPTY);
-	richTextArea.setSizeFull();
-	richTextArea.setHeight("500px");
+	richTextArea.setWidth("600px");
+	richTextArea.setHeight("350px");
 	richTextArea.setImmediate(true);
 	richTextArea.setWriteThrough(true);
 	richTextArea.setEnabled(true);
