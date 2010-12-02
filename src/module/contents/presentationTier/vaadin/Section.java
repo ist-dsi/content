@@ -99,7 +99,7 @@ public class Section implements Serializable {
 	final List<Section> result = new ArrayList<Section>();
 	int i = 0;
 	for (final module.contents.domain.Section section : page.getOrderedSections()) {
-	    result.add(createSection(i++, section));
+	    result.add(createSection(++i, section));
 	}
 	return result;
     }
@@ -125,6 +125,14 @@ public class Section implements Serializable {
 	for (final module.contents.domain.Section child : section.getSectionsSet()) {
 	    createSection(result, child);
 	}
+    }
+
+    public int levelFromTop() {
+	return parent == null ? 0 : parent.levelFromTop();
+    }
+
+    public String getReference() {
+	return "section" + getNumber();
     }
 
 }
