@@ -21,7 +21,7 @@ public class SectionComponent extends BaseComponent {
 
     @Override
     public void attach() {
-	final VerticalLayout layout = createVerticalLayout();
+	final VerticalLayout layout = new VerticalLayout();
 	setCompositionRoot(layout);
 
 	final Component sectionBody = createSectionBody(layout);
@@ -35,7 +35,7 @@ public class SectionComponent extends BaseComponent {
     }
 
     private Component createSectionBody(final AbstractComponentContainer container) {
-	final VerticalLayout sectionLayout = createVerticalLayout();
+	final VerticalLayout sectionLayout = new VerticalLayout();
 	addTag(sectionLayout, "a", null, "name", "section" + section.getNumber());
 	addTag(sectionLayout, "h" + (2 + section.levelFromTop()), section.getNumberedTitle());
 	if (section.getPage().canEdit()) {
