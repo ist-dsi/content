@@ -26,10 +26,11 @@
 package module.contents.domain;
 
 import java.util.ArrayList;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
+import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.MyOrg;
+import myorg.domain.RoleType;
+import myorg.domain.User;
 import myorg.util.BundleUtil;
 import pt.ist.fenixWebFramework.services.Service;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
@@ -75,6 +76,16 @@ public class Page extends Page_Base {
 	final MultiLanguageString title = getTitle();
 	title.setContent(content);
 	setTitle(title);
+    }
+
+    @Override
+    public boolean isPage() {
+        return true;
+    }
+
+    public boolean canEdit() {
+	final User user = UserView.getCurrentUser();
+	return user.hasRoleType(RoleType.MANAGER);
     }
 
 }

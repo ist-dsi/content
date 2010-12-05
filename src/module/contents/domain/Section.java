@@ -48,6 +48,12 @@ public class Section extends Section_Base {
 	setContainer(container);
     }
 
+    public Section(final Container container, final String title, final String content) {
+	this(container);
+	setTitle(title);
+	setContent(content);
+    }
+
     @Override
     public void setContainer(final Container container) {
 	if (container != null && container != getContainer()) {
@@ -75,6 +81,33 @@ public class Section extends Section_Base {
 	}
 	contents.setContent(content);
 	setContents(contents);
+    }
+
+    public String getNumber() {
+	return isParentAPage() ? getSectionOrder().toString() : ((Section) getContainer()).getNumber() + "." + getSectionOrder();
+    }
+
+    private boolean isParentAPage() {
+	return hasContainer() && getContainer().isPage();
+    }
+
+    public int levelFromTop() {
+	return isParentAPage() ? 0 : ((Section) getContainer()).levelFromTop() + 1;
+    }
+
+    public String getNumberedTitle() {
+	return getNumber()  + ". " + getTitle().getContent();
+    }
+
+    public Page getPage() {
+	final Container parent = getContainer();
+	return parent.isPage() ? (Page) parent : ((Section) parent).getPage();
+    }
+
+    @Service
+    public void edit(final String title, final String content) {
+	setTitle(title);
+	setContent(content);
     }
 
 }

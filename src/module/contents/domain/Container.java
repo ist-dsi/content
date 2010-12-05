@@ -48,4 +48,13 @@ public class Container extends Container_Base {
 	return new Section(this);
     }
 
+    @Service
+    public Section addSection(final String title, final String content) {
+	return new Section(this, title, content);
+    }
+
+    public boolean isPage() {
+	return false;
+    }
+
 }
