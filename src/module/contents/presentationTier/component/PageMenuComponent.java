@@ -17,12 +17,13 @@ public class PageMenuComponent extends BaseComponent {
 
     @Override
     public void attach() {
+	super.attach();
+
 	final StringBuilder stringBuilder = new StringBuilder();
 	addMenu(stringBuilder, page.getOrderedSections());
 	stringBuilder.append("<br/>");
 	final Label content = new Label(stringBuilder.toString(), Label.CONTENT_XHTML);
 	setCompositionRoot(content);
-        super.attach();
     }
 
     private void addMenu(final StringBuilder stringBuilder, final Collection<Section> sections) {

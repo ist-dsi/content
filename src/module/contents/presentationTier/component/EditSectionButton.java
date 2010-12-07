@@ -26,6 +26,8 @@ public class EditSectionButton extends BaseComponent {
 
     @Override
     public void attach() {
+	super.attach();
+
 	final Button button = new Button(getMessage("label.edit"));
 	button.setStyleName(BaseTheme.BUTTON_LINK);
 	button.addListener(new Button.ClickListener() {
@@ -53,8 +55,6 @@ public class EditSectionButton extends BaseComponent {
 	    }
 	});
 	setCompositionRoot(button);
-
-	super.attach();
     }
 
 }

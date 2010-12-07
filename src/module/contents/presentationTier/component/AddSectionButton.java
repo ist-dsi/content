@@ -14,6 +14,8 @@ public class AddSectionButton extends BaseComponent {
 
     @Override
     public void attach() {
+	super.attach();
+
 	final Button button = new Button("+ " + getMessage("label.add.section"));
 	button.setStyleName(BaseTheme.BUTTON_LINK);
 	button.addListener(new Button.ClickListener() {
@@ -26,8 +28,6 @@ public class AddSectionButton extends BaseComponent {
 	    }
 	});
 	setCompositionRoot(button);
-
-	super.attach();
     }
 
 }

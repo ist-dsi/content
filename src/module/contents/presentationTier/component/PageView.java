@@ -48,6 +48,8 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
 
     @Override
     public void attach() {
+	super.attach();
+
 	final AbstractLayout layout = createSplitPanelLayout(SplitPanel.ORIENTATION_VERTICAL,
 		true, "500px", "100%", 55, SplitPanel.UNITS_PIXELS);
 	setCompositionRoot(layout);
@@ -58,8 +60,6 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
 		false, "100%", "100%", 25, SplitPanel.UNITS_PERCENTAGE);
 	renderPageMenuArea(horizontalSplitPanel);
 	renderPageContent(horizontalSplitPanel);
-
-	super.attach();
     }
 
     private void renderPageTitleArea(final AbstractComponentContainer container) {

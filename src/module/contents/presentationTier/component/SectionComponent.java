@@ -21,6 +21,8 @@ public class SectionComponent extends BaseComponent {
 
     @Override
     public void attach() {
+	super.attach();
+
 	final VerticalLayout layout = new VerticalLayout();
 	setCompositionRoot(layout);
 
@@ -30,8 +32,6 @@ public class SectionComponent extends BaseComponent {
 	for (final Section subSection : section.getOrderedSections()) {
 	    addSectionComponent(layout, subSection);
 	}
-
-        super.attach();
     }
 
     private Component createSectionBody(final AbstractComponentContainer container) {

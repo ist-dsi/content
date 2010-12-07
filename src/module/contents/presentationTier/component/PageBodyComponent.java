@@ -18,14 +18,14 @@ public class PageBodyComponent extends BaseComponent {
 
     @Override
     public void attach() {
+	super.attach();
+
 	final AbstractComponentContainer container = createVerticalLayout();
 	setCompositionRoot(container);
 
 	for (final Section subSection : page.getOrderedSections()) {
 	    addSection(container, subSection);
 	}
-
-        super.attach();
     }
 
     public void addSection(final Section section) {
