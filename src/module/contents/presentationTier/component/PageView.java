@@ -6,6 +6,7 @@ import module.contents.domain.Page;
 import module.contents.domain.Section;
 import pt.ist.fenixframework.pstm.AbstractDomainObject;
 import pt.ist.vaadinframework.ui.EmbeddedComponentContainer;
+import vaadin.annotation.EmbeddedComponent;
 
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.AbstractLayout;
@@ -16,6 +17,7 @@ import com.vaadin.ui.SplitPanel;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
+@EmbeddedComponent(path = { "PageView-(.*)" })
 public class PageView extends BaseComponent implements EmbeddedComponentContainer {
 
     public interface MenuReRenderListner extends Serializable {
