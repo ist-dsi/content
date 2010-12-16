@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import module.contents.domain.Page;
 import myorg.domain.VirtualHost;
+import myorg.domain.contents.ActionNode;
 import myorg.domain.contents.Node;
 import myorg.domain.groups.UserGroup;
 import myorg.presentationTier.actions.ContextBaseAction;
@@ -29,10 +30,11 @@ public class CreateVaadinWikiInterface extends ContextBaseAction {
 
 	final Page page = Page.createNewPage();
 
-//	VaadinNode.createVaadinNode(virtualHost, node, "resources.ContentResources", "add.interface.vaadinWiki",
-//		"SectionedPageViewer-" + page.getExternalId(), UserGroup.getInstance());
 	VaadinNode.createVaadinNode(virtualHost, node, "resources.ContentResources", "add.interface.vaadinWiki",
 		"PageView-" + page.getExternalId(), UserGroup.getInstance());
+
+	ActionNode.createActionNode(virtualHost, node, "/traditionalPageViewer", "viewPage&pageID=" + page.getExternalId(), "resources.ContentResources",
+		"add.interface.vaadinWiki", UserGroup.getInstance());
 
 	return forwardToMuneConfiguration(request, virtualHost, node);
     }
