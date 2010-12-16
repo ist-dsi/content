@@ -4,9 +4,10 @@ import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.RoleType;
 import myorg.domain.User;
 import myorg.util.BundleUtil;
+import pt.ist.fenixframework.DomainObject;
+import pt.ist.fenixframework.pstm.AbstractDomainObject;
 
 import com.vaadin.ui.AbstractComponentContainer;
-import com.vaadin.ui.AbstractLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.SplitPanel;
@@ -14,6 +15,10 @@ import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
 public abstract class BaseComponent extends CustomComponent {
+
+    protected <T extends DomainObject> T getDomainObject(final String externalId) {
+	return AbstractDomainObject.<T>fromExternalId(externalId);
+    }
 
     protected String getBundle() {
 	return "resources.ContentResources";

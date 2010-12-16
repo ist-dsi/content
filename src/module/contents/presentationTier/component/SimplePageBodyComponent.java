@@ -25,10 +25,6 @@ public class SimplePageBodyComponent extends BaseComponent {
 	}
     }
 
-    public void addSection(final Section section) {
-	addSection((AbstractComponentContainer) getCompositionRoot(), section);
-    }
-
     public void addSection(final AbstractComponentContainer container, final Section section) {
 	final SimpleSectionComponent sectionComponent = new SimpleSectionComponent(section);
 	container.addComponent(sectionComponent);	

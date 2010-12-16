@@ -21,7 +21,7 @@ public class PageMenuComponent extends BaseComponent {
 
 	final StringBuilder stringBuilder = new StringBuilder();
 	addMenu(stringBuilder, page.getOrderedSections());
-	stringBuilder.append("<br/>");
+
 	final Label content = new Label(stringBuilder.toString(), Label.CONTENT_XHTML);
 	setCompositionRoot(content);
     }
