@@ -63,9 +63,9 @@ public abstract class BaseComponent extends CustomComponent {
 	return splitPanel;
     }
 
-    protected Label addTag(final AbstractLayout layout, final String tag, final String content, final String... params) {
+    protected Label addTag(final AbstractComponentContainer container, final String tag, final String content, final String... params) {
 	final Label label = new Label(htmlTag(tag, content, params), Label.CONTENT_XHTML);
-	layout.addComponent(label);
+	container.addComponent(label);
 	return label;
     }
 
