@@ -19,13 +19,8 @@ public class PageBodyComponent extends BaseComponent {
     @Override
     public void attach() {
 	super.attach();
-
-	final AbstractComponentContainer container = createVerticalLayout();
-	setCompositionRoot(container);
-
-	for (final Section subSection : page.getOrderedSections()) {
-	    addSection(container, subSection);
-	}
+	setCompositionRoot(ProgressFactory.createCenteredProgressIndicator());
+	new Worker().start();
     }
 
     public void addSection(final Section section) {
@@ -34,7 +29,25 @@ public class PageBodyComponent extends BaseComponent {
 
     public void addSection(final AbstractComponentContainer container, final Section section) {
 	final SectionComponent sectionComponent = new SectionComponent(section, menuReRenderListner);
-	container.addComponent(sectionComponent);	
+	container.addComponent(sectionComponent);
+    }
+
+    public class Worker extends UserTransactionalThread {
+
+	@Override
+	public void doIt() {
+	    final AbstractComponentContainer container = createVerticalLayout();
+
+	    for (final Section subSection : page.getOrderedSections()) {
+		addSection(container, subSection);
+	    }
+
+//	    synchronized (getApplication()) {
+		setCompositionRoot(container);
+//	    }
+
+	    requestRepaint();
+	}
     }
 
 }

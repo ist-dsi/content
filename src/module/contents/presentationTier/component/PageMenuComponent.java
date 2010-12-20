@@ -18,12 +18,8 @@ public class PageMenuComponent extends BaseComponent {
     @Override
     public void attach() {
 	super.attach();
-
-	final StringBuilder stringBuilder = new StringBuilder();
-	addMenu(stringBuilder, page.getOrderedSections());
-
-	final Label content = new Label(stringBuilder.toString(), Label.CONTENT_XHTML);
-	setCompositionRoot(content);
+	setCompositionRoot(ProgressFactory.createCenteredProgressIndicator());
+	new Worker().start();
     }
 
     private void addMenu(final StringBuilder stringBuilder, final Collection<Section> sections) {
@@ -41,6 +37,24 @@ public class PageMenuComponent extends BaseComponent {
 	htmlTag(stringBuilder, "a", section.getTitle().getContent(), "href", "#section" + section.getNumber());
 	addMenu(stringBuilder, section.getOrderedSections());
 	stringBuilder.append("</li>");
+    }
+
+    public class Worker extends UserTransactionalThread {
+
+	@Override
+	public void doIt() {
+            final StringBuilder stringBuilder = new StringBuilder();
+            addMenu(stringBuilder, page.getOrderedSections());
+            stringBuilder.append("<br/>");
+
+            final Label content = new Label(stringBuilder.toString(), Label.CONTENT_XHTML);
+
+//            synchronized (getApplication()) {
+        	setCompositionRoot(content);
+//            }
+
+            requestRepaint();
+	}
     }
 
 }
