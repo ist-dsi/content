@@ -7,7 +7,7 @@ public class ContentEditorWindow extends Window {
     private final ContentEditorLayout layout;
 
     public ContentEditorWindow(final String widnowTitle, final String okButtonTitle) {
-	super(widnowTitle, new ContentEditorLayout(okButtonTitle));
+	super(widnowTitle, new ContentEditorLayout(okButtonTitle, false));
 	layout = (ContentEditorLayout) getContent();
 	final Window window = this;
 	layout.setContentEditorCloseListner(new ContentEditorCloseListner() {

@@ -16,25 +16,28 @@ public class EditSectionButton extends BaseComponent {
     private final Section section;
     private final AbstractComponentContainer container;
     private final EditSectionSaveListner editSectionSaveListner;
+    private final boolean plainHtmlEditor;
 
     public EditSectionButton(final Section section, final AbstractComponentContainer container,
-	    final EditSectionSaveListner editSectionSaveListner) {
+	    final EditSectionSaveListner editSectionSaveListner, final boolean plainHtmlEditor) {
 	this.section = section;
 	this.container = container;
 	this.editSectionSaveListner = editSectionSaveListner;
+	this.plainHtmlEditor = plainHtmlEditor;
     }
 
     @Override
     public void attach() {
 	super.attach();
 
-	final Button button = new Button(getMessage("label.edit"));
+	final String key = plainHtmlEditor ? "label.edit.html" : "label.edit";
+	final Button button = new Button(getMessage(key));
 	button.setStyleName(BaseTheme.BUTTON_LINK);
 	button.addListener(new Button.ClickListener() {
 	    @Override
 	    public void buttonClick(ClickEvent event) {
 		final ContentEditorLayout contentEditorLayout = new ContentEditorLayout("label.save",
-			section.getTitle().getContent(), section.getContents().getContent());
+			section.getTitle().getContent(), section.getContents().getContent(), plainHtmlEditor);
 
 		final AbstractComponentContainer parent = (AbstractComponentContainer) container.getParent();
 		parent.replaceComponent(container, contentEditorLayout);

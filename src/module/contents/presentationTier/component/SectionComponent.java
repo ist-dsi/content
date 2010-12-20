@@ -66,8 +66,18 @@ public class SectionComponent extends BaseComponent {
 		newSectionContainer.replaceComponent(editorContainer, createSectionBody(newSectionContainer));
 		menuReRenderListner.reRender();
 	    }
-	});
+	}, false);
 	container.addComponent(editSectionButton);
+
+	final EditSectionButton editHtmlSectionButton = new EditSectionButton(section, sectionContainer, new EditSectionSaveListner() {
+	    @Override
+	    public void save(final String title, final String content, final AbstractComponentContainer editorContainer) {
+		section.edit(title, content);
+		newSectionContainer.replaceComponent(editorContainer, createSectionBody(newSectionContainer));
+		menuReRenderListner.reRender();
+	    }
+	}, true);
+	container.addComponent(editHtmlSectionButton);
     }
 
     private void addAddSectionButton(final AbstractComponentContainer container, final AbstractComponentContainer sectionContainer,

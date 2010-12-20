@@ -5,21 +5,21 @@ import myorg.util.BundleUtil;
 import org.apache.commons.lang.StringUtils;
 
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Button.ClickEvent;
 
 public class ContentEditorLayout extends VerticalLayout {
 
     private final TextField titleField = new TextField();
-    private final RichTextArea richTextArea = new RichTextArea();
+    private TextField richTextArea = null;
 
     private ContentEditorSaveListner contentEditorSaveListner = null;
     private ContentEditorCloseListner contentEditorCloseListner = null;
 
-    public ContentEditorLayout(final String okButtonTitle) {
+    public ContentEditorLayout(final String okButtonTitle, final boolean plainHtmlEditor) {
 	setSpacing(true);
 	setMargin(true);
 	setSizeUndefined();
@@ -28,6 +28,7 @@ public class ContentEditorLayout extends VerticalLayout {
 	titleField.setColumns(50);
 	addComponent(titleField);
 
+	richTextArea = plainHtmlEditor ? titleField : new RichTextArea();
 	richTextArea.setNullSettingAllowed(true);
 	richTextArea.setNullRepresentation(StringUtils.EMPTY);
 	richTextArea.setWidth("600px");
@@ -60,8 +61,8 @@ public class ContentEditorLayout extends VerticalLayout {
         addComponent(horizontalLayout);
     }
 
-    public ContentEditorLayout(final String okButtonTitle, final String title, final String content) {
-	this(okButtonTitle);
+    public ContentEditorLayout(final String okButtonTitle, final String title, final String content, final boolean plainHtmlEditor) {
+	this(okButtonTitle, plainHtmlEditor);
 	titleField.setValue(title);
 	richTextArea.setValue(content);
     }
