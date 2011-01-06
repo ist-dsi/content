@@ -13,7 +13,6 @@ import com.vaadin.ui.AbstractLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.SplitPanel;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
@@ -52,14 +51,12 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
     public void attach() {
 	super.attach();
 
-	final AbstractLayout layout = createSplitPanelLayout(SplitPanel.ORIENTATION_VERTICAL,
-		true, "500px", "100%", 55, SplitPanel.UNITS_PIXELS);
+	final AbstractLayout layout = createVerticalLayout();
 	setCompositionRoot(layout);
 
 	renderPageTitleArea(layout);
 
-	final SplitPanel horizontalSplitPanel = createSplitPanelLayout(layout, SplitPanel.ORIENTATION_HORIZONTAL,
-		false, "100%", "100%", 25, SplitPanel.UNITS_PERCENTAGE);
+	final AbstractLayout horizontalSplitPanel = createVerticalLayout(layout);
 	renderPageMenuArea(horizontalSplitPanel);
 	renderPageContent(horizontalSplitPanel);
     }
