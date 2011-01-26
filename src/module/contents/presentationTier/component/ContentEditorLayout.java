@@ -4,6 +4,7 @@ import myorg.util.BundleUtil;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
@@ -14,7 +15,7 @@ import com.vaadin.ui.VerticalLayout;
 public class ContentEditorLayout extends VerticalLayout {
 
     private final TextField titleField = new TextField();
-    private TextField richTextArea = null;
+    private AbstractField richTextArea = null;
 
     private ContentEditorSaveListner contentEditorSaveListner = null;
     private ContentEditorCloseListner contentEditorCloseListner = null;
@@ -29,8 +30,8 @@ public class ContentEditorLayout extends VerticalLayout {
 	addComponent(titleField);
 
 	richTextArea = plainHtmlEditor ? titleField : new RichTextArea();
-	richTextArea.setNullSettingAllowed(true);
-	richTextArea.setNullRepresentation(StringUtils.EMPTY);
+//	richTextArea.setNullSettingAllowed(true);
+//	richTextArea.setNullRepresentation(StringUtils.EMPTY);
 	richTextArea.setWidth("600px");
 	richTextArea.setHeight("350px");
 	richTextArea.setImmediate(true);
