@@ -24,8 +24,8 @@ public abstract class BaseComponent extends CustomComponent {
 	return "resources.ContentResources";
     }
 
-    protected String getMessage(final String key) {
-	return BundleUtil.getStringFromResourceBundle(getBundle(), key);
+    protected String getMessage(final String key, String... args) {
+	return BundleUtil.getFormattedStringFromResourceBundle(getBundle(), key, args);
     }
 
     protected boolean hasRole(final RoleType roleType) {
