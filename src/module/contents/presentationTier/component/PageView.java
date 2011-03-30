@@ -1,6 +1,9 @@
 package module.contents.presentationTier.component;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import module.contents.domain.Page;
 import module.contents.domain.Section;
@@ -9,21 +12,120 @@ import pt.ist.vaadinframework.ui.EmbeddedComponentContainer;
 import vaadin.annotation.EmbeddedComponent;
 
 import com.vaadin.ui.AbstractComponentContainer;
-import com.vaadin.ui.AbstractLayout;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.Reindeer;
 
 @SuppressWarnings("serial")
 @EmbeddedComponent(path = { "PageView-(.*)" })
 public class PageView extends BaseComponent implements EmbeddedComponentContainer {
+
+    private class PageIndex extends VerticalLayout  {
+
+	private class SectionLink extends Button implements ClickListener {
+
+	    private final String sectionOID;
+
+	    private SectionLink(final Section section) {
+		super(section.getNumberedTitle());
+		setStyleName(Reindeer.BUTTON_LINK);
+		sectionOID = section.getExternalId();
+		final ClickListener clickListener = this;
+		addListener(clickListener);
+	    }
+
+	    @Override
+	    public void buttonClick(final ClickEvent event) {
+		scrollIntoSection(sectionOID);
+	    }
+
+	}
+
+	private PageIndex() {
+	    setMargin(false, false, true, true);
+	}
+
+	@Override
+	public void attach() {
+	    super.attach();
+
+	    final Set<Section> sections = page.getOrderedSections();
+	    addSections(sections);
+	}
+
+	private void addSections(final Set<Section> sections) {
+	    for (final Section section : sections) {
+		addSection(section);
+	    }
+	}
+
+	private void addSection(final Section section) {
+	    final SectionLink sectionLink = new SectionLink(section);
+	    addComponent(sectionLink);
+	    final Set<Section> subSections = section.getOrderedSections();
+	    addSections(subSections);
+	}
+
+    }
+
+    private class PageContent extends VerticalLayout {
+
+	private class SectionPanel extends Panel {
+
+	    private SectionPanel(final Section section) {
+		super(section.getNumberedTitle());
+		setStyleName(Reindeer.PANEL_LIGHT);
+		final String content = section.getContents().getContent();
+		addComponent(new Label(content, Label.CONTENT_RAW));
+	    }
+
+	    @Override
+	    public void attach() {
+	        super.attach();
+	    }
+
+	}
+
+	public PageContent() {
+	    setMargin(true, false, false, false);
+	}
+
+	@Override
+	public void attach() {
+	    super.attach();
+
+	    final Set<Section> sections = page.getOrderedSections();
+	    addSections(sections);
+	}
+
+	private void addSections(final Set<Section> sections) {
+	    for (final Section section : sections) {
+		addSection(section);
+	    }
+	}
+
+	private void addSection(final Section section) {
+	    final SectionPanel sectionPanel = new SectionPanel(section);
+	    addComponent(sectionPanel);
+	    sectionComponentMap.put(section.getExternalId(), sectionPanel);
+	    final Set<Section> subSections = section.getOrderedSections();
+	    addSections(subSections);
+	}
+
+    }
 
     public interface MenuReRenderListner extends Serializable {
 	public void reRender();
     }
 
     private transient Page page;
+    private Map<String, Component> sectionComponentMap = new HashMap<String, Component>();
 
     private final AbstractComponentContainer notificationArea = new HorizontalLayout();
 
@@ -51,26 +153,28 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
     public void attach() {
 	super.attach();
 
-	final AbstractLayout layout = createVerticalLayout();
+	final VerticalLayout layout = new VerticalLayout();
 	setCompositionRoot(layout);
+	layout.setSpacing(true);
 
-	renderPageTitleArea(layout);
+	final Label title = new Label("<h2>" + page.getTitle().getContent() + "</h2>", Label.CONTENT_XHTML);
+	title.setSizeFull();
+	layout.addComponent(title);
 
-	final AbstractLayout horizontalSplitPanel = createVerticalLayout(layout);
+	final PageIndex pageIndex = new PageIndex();
+	layout.addComponent(pageIndex);
+
+	final PageContent pageContent = new PageContent();
+	layout.addComponent(pageContent);
+/*
 	renderPageMenuArea(horizontalSplitPanel);
 	renderPageContent(horizontalSplitPanel);
+*/
     }
 
-    private void renderPageTitleArea(final AbstractComponentContainer container) {
-	final HorizontalLayout horizontalLayout = new HorizontalLayout();
-	horizontalLayout.setSizeFull();
-	final Label title = addTag(horizontalLayout, "h2", page.getTitle().getContent());
-	horizontalLayout.setComponentAlignment(title, Alignment.MIDDLE_LEFT);
-	if (page.canEdit()) {
-	    horizontalLayout.addComponent(notificationArea);
-	    horizontalLayout.setComponentAlignment(notificationArea, Alignment.MIDDLE_RIGHT);
-	}
-	container.addComponent(horizontalLayout);
+    private void scrollIntoSection(final String sectionOID) {
+	final Component component = sectionComponentMap.get(sectionOID);
+	getWindow().scrollIntoView(component);
     }
 
     private void renderPageMenuArea(final AbstractComponentContainer container) {
