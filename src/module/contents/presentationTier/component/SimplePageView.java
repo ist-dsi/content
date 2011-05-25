@@ -5,7 +5,7 @@ import module.contents.domain.Page;
 import org.apache.commons.lang.StringUtils;
 
 import pt.ist.vaadinframework.ui.EmbeddedComponentContainer;
-import vaadin.annotation.EmbeddedComponent;
+import pt.ist.vaadinframework.annotation.EmbeddedComponent;
 
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.VerticalLayout;

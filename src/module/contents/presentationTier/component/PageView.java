@@ -9,7 +9,7 @@ import module.contents.domain.Page;
 import module.contents.domain.Section;
 import pt.ist.fenixframework.pstm.AbstractDomainObject;
 import pt.ist.vaadinframework.ui.EmbeddedComponentContainer;
-import vaadin.annotation.EmbeddedComponent;
+import pt.ist.vaadinframework.annotation.EmbeddedComponent;
 
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Alignment;
