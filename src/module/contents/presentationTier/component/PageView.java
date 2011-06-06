@@ -8,9 +8,10 @@ import java.util.Set;
 import module.contents.domain.Page;
 import module.contents.domain.Section;
 import pt.ist.fenixframework.pstm.AbstractDomainObject;
-import pt.ist.vaadinframework.ui.EmbeddedComponentContainer;
 import pt.ist.vaadinframework.annotation.EmbeddedComponent;
+import pt.ist.vaadinframework.ui.EmbeddedComponentContainer;
 
+import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -18,12 +19,15 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout.MarginHandler;
+import com.vaadin.ui.Layout.MarginInfo;
+import com.vaadin.ui.Layout.SpacingHandler;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
 
 @SuppressWarnings("serial")
-@EmbeddedComponent(path = { "PageView-(.*)" })
+@EmbeddedComponent(path = { "PageView-(.*?)(-(.*))?" })
 public class PageView extends BaseComponent implements EmbeddedComponentContainer {
 
     private class PageIndex extends VerticalLayout  {
@@ -42,7 +46,8 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
 
 	    @Override
 	    public void buttonClick(final ClickEvent event) {
-		scrollIntoSection(sectionOID);
+//		scrollIntoSection(sectionOID);
+		getApplication().getMainWindow().open(new ExternalResource("#PageView-" + page.getExternalId() + "-" + sectionOID));
 	    }
 
 	}
@@ -125,6 +130,7 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
     }
 
     private transient Page page;
+    private transient Section scrolledSection;
     private Map<String, Component> sectionComponentMap = new HashMap<String, Component>();
 
     private final AbstractComponentContainer notificationArea = new HorizontalLayout();
@@ -142,10 +148,14 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
 
     @Override
     public void setArguments(final String... arguments) {
-	for (final String arg : arguments) {
-	    final int i = arg.indexOf('-');
-	    final String id = arg.substring(i + 1);
-	    page = AbstractDomainObject.fromExternalId(id);
+	final String pid = arguments[1];
+	page = AbstractDomainObject.fromExternalId(pid);
+
+	if (arguments.length > 3) {
+	    final String sid = arguments[3];
+	    if (sid != null) {
+		scrolledSection = AbstractDomainObject.fromExternalId(sid);
+	    }
 	}
     }
 
@@ -153,9 +163,14 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
     public void attach() {
 	super.attach();
 
-	final VerticalLayout layout = new VerticalLayout();
+	final Panel layout = new Panel();
+	final SpacingHandler content = (SpacingHandler) layout.getContent();
+	content.setSpacing(true);
+	final MarginHandler marginHandler = (MarginHandler) layout.getContent();
+	marginHandler.setMargin(new MarginInfo(false));
 	setCompositionRoot(layout);
-	layout.setSpacing(true);
+	layout.setHeight(500, UNITS_PIXELS);
+	layout.addStyleName(Reindeer.PANEL_LIGHT);
 
 	final Label title = new Label("<h2>" + page.getTitle().getContent() + "</h2>", Label.CONTENT_XHTML);
 	title.setSizeFull();
@@ -166,6 +181,10 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
 
 	final PageContent pageContent = new PageContent();
 	layout.addComponent(pageContent);
+
+	if (scrolledSection != null) {
+	    scrollIntoSection(scrolledSection.getExternalId());
+	}
 /*
 	renderPageMenuArea(horizontalSplitPanel);
 	renderPageContent(horizontalSplitPanel);
@@ -174,6 +193,7 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
 
     private void scrollIntoSection(final String sectionOID) {
 	final Component component = sectionComponentMap.get(sectionOID);
+//	getApplication().getMainWindow().scrollIntoView(component);
 	getWindow().scrollIntoView(component);
     }
 
