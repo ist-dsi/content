@@ -8,6 +8,7 @@ import java.util.Set;
 import module.contents.domain.Page;
 import module.contents.domain.Section;
 import pt.ist.fenixframework.pstm.AbstractDomainObject;
+import pt.ist.vaadinframework.EmbeddedApplication;
 import pt.ist.vaadinframework.annotation.EmbeddedComponent;
 import pt.ist.vaadinframework.ui.EmbeddedComponentContainer;
 
@@ -27,7 +28,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
 
 @SuppressWarnings("serial")
-@EmbeddedComponent(path = { "PageView-(.*?)(-(.*))?" })
+@EmbeddedComponent(path = { "PageView" } , args = { "page" , "section" })
 public class PageView extends BaseComponent implements EmbeddedComponentContainer {
 
     private class PageIndex extends VerticalLayout  {
@@ -47,7 +48,8 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
 	    @Override
 	    public void buttonClick(final ClickEvent event) {
 //		scrollIntoSection(sectionOID);
-		getApplication().getMainWindow().open(new ExternalResource("#PageView-" + page.getExternalId() + "-" + sectionOID));
+//		getApplication().getMainWindow().open(new ExternalResource("#PageView-" + page.getExternalId() + "-" + sectionOID));
+		EmbeddedApplication.open(getApplication(), PageView.class, page.getExternalId() , sectionOID);
 	    }
 
 	}
@@ -148,8 +150,8 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
 
     @Override
     public void setArguments(Map<String,String> arguments) {
-	page = AbstractDomainObject.fromExternalId(arguments.get("pid"));
-	scrolledSection = AbstractDomainObject.fromExternalId(arguments.get("sid"));
+	page = AbstractDomainObject.fromExternalId(arguments.get("page"));
+	scrolledSection = AbstractDomainObject.fromExternalId(arguments.get("section"));
     }
 
     @Override
