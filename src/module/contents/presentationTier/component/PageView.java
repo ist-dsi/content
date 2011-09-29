@@ -147,16 +147,9 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
     };
 
     @Override
-    public void setArguments(final String... arguments) {
-	final String pid = arguments[1];
-	page = AbstractDomainObject.fromExternalId(pid);
-
-	if (arguments.length > 3) {
-	    final String sid = arguments[3];
-	    if (sid != null) {
-		scrolledSection = AbstractDomainObject.fromExternalId(sid);
-	    }
-	}
+    public void setArguments(Map<String,String> arguments) {
+	page = AbstractDomainObject.fromExternalId(arguments.get("pid"));
+	scrolledSection = AbstractDomainObject.fromExternalId(arguments.get("sid"));
     }
 
     @Override
