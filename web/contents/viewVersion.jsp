@@ -40,7 +40,7 @@
 		</script>
 		
 	<div id="tabs" style="font-size: 10px;">
-		<%= ContentContextInjectionRewriter.BLOCK_HAS_CONTEXT_PREFIX %>
+		<%= pt.ist.fenixWebFramework.servlets.filters.contentRewrite.RequestRewriter.BLOCK_HAS_CONTEXT_PREFIX %>
 		<ul>
 			<logic:equal name="selectedVersion" property="currentVersion" value="true">
 				<logic:equal name="selectedVersion" property="currentVersion" value="true">
@@ -56,7 +56,7 @@
 			
 			<li><%= GenericChecksumRewriter.NO_CHECKSUM_PREFIX %><a href="#pageVersions"><bean:message key="label.wiki.versions" bundle="CONTENT_RESOURCES"/></a></li>
 		</ul>
-		<%= ContentContextInjectionRewriter.END_BLOCK_HAS_CONTEXT_PREFIX %>
+		<%= pt.ist.fenixWebFramework.servlets.filters.contentRewrite.RequestRewriter.END_BLOCK_HAS_CONTEXT_PREFIX %>
 		<logic:equal name="selectedVersion" property="currentVersion" value="true">
 			<logic:present role="myorg.domain.RoleType.MANAGER">
 				<div id="pageOptions">

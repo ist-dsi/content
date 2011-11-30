@@ -3,7 +3,7 @@
 
 <h2><bean:write name="page" property="title"/></h2>
 
-<!-- BLOCK_HAS_CONTEXT -->
+<%= pt.ist.fenixWebFramework.servlets.filters.contentRewrite.RequestRewriter.BLOCK_HAS_CONTEXT_PREFIX %>
 
 <bean:define id="sections" name="page" property="orderedSections" toScope="request"/>
 <jsp:include page="traditionalSectionMenuView.jsp"/>
@@ -11,4 +11,4 @@
 <bean:define id="sections" name="page" property="orderedSections" toScope="request"/>
 <jsp:include page="traditionalSectionContentView.jsp"/>
 
-<!-- END_BLOCK_HAS_CONTEXT -->
+<%= pt.ist.fenixWebFramework.servlets.filters.contentRewrite.RequestRewriter.END_BLOCK_HAS_CONTEXT_PREFIX %>
