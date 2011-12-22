@@ -7,12 +7,12 @@ import java.util.Set;
 
 import module.contents.domain.Page;
 import module.contents.domain.Section;
+import module.vaadin.ui.BennuTheme;
 import pt.ist.fenixframework.pstm.AbstractDomainObject;
 import pt.ist.vaadinframework.EmbeddedApplication;
 import pt.ist.vaadinframework.annotation.EmbeddedComponent;
 import pt.ist.vaadinframework.ui.EmbeddedComponentContainer;
 
-import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -25,13 +25,13 @@ import com.vaadin.ui.Layout.MarginInfo;
 import com.vaadin.ui.Layout.SpacingHandler;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.themes.Reindeer;
+import com.vaadin.ui.themes.BaseTheme;
 
 @SuppressWarnings("serial")
-@EmbeddedComponent(path = { "PageView" } , args = { "page" , "section" })
+@EmbeddedComponent(path = { "PageView" }, args = { "page", "section" })
 public class PageView extends BaseComponent implements EmbeddedComponentContainer {
 
-    private class PageIndex extends VerticalLayout  {
+    private class PageIndex extends VerticalLayout {
 
 	private class SectionLink extends Button implements ClickListener {
 
@@ -39,7 +39,7 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
 
 	    private SectionLink(final Section section) {
 		super(section.getNumberedTitle());
-		setStyleName(Reindeer.BUTTON_LINK);
+		setStyleName(BaseTheme.BUTTON_LINK);
 		sectionOID = section.getExternalId();
 		final ClickListener clickListener = this;
 		addListener(clickListener);
@@ -47,9 +47,11 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
 
 	    @Override
 	    public void buttonClick(final ClickEvent event) {
-//		scrollIntoSection(sectionOID);
-//		getApplication().getMainWindow().open(new ExternalResource("#PageView-" + page.getExternalId() + "-" + sectionOID));
-		EmbeddedApplication.open(getApplication(), PageView.class, page.getExternalId() , sectionOID);
+		// scrollIntoSection(sectionOID);
+		// getApplication().getMainWindow().open(new
+		// ExternalResource("#PageView-" + page.getExternalId() + "-" +
+		// sectionOID));
+		EmbeddedApplication.open(getApplication(), PageView.class, page.getExternalId(), sectionOID);
 	    }
 
 	}
@@ -87,14 +89,14 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
 
 	    private SectionPanel(final Section section) {
 		super(section.getNumberedTitle());
-		setStyleName(Reindeer.PANEL_LIGHT);
+		setStyleName(BennuTheme.PANEL_LIGHT);
 		final String content = section.getContents().getContent();
 		addComponent(new Label(content, Label.CONTENT_RAW));
 	    }
 
 	    @Override
 	    public void attach() {
-	        super.attach();
+		super.attach();
 	    }
 
 	}
@@ -133,7 +135,7 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
 
     private transient Page page;
     private transient Section scrolledSection;
-    private Map<String, Component> sectionComponentMap = new HashMap<String, Component>();
+    private final Map<String, Component> sectionComponentMap = new HashMap<String, Component>();
 
     private final AbstractComponentContainer notificationArea = new HorizontalLayout();
 
@@ -149,7 +151,7 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
     };
 
     @Override
-    public void setArguments(Map<String,String> arguments) {
+    public void setArguments(Map<String, String> arguments) {
 	page = AbstractDomainObject.fromExternalId(arguments.get("page"));
 	scrolledSection = AbstractDomainObject.fromExternalId(arguments.get("section"));
     }
@@ -165,7 +167,7 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
 	marginHandler.setMargin(new MarginInfo(false));
 	setCompositionRoot(layout);
 	layout.setHeight(500, UNITS_PIXELS);
-	layout.addStyleName(Reindeer.PANEL_LIGHT);
+	layout.addStyleName(BennuTheme.PANEL_LIGHT);
 
 	final Label title = new Label("<h2>" + page.getTitle().getContent() + "</h2>", Label.CONTENT_XHTML);
 	title.setSizeFull();
@@ -180,15 +182,15 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
 	if (scrolledSection != null) {
 	    scrollIntoSection(scrolledSection.getExternalId());
 	}
-/*
-	renderPageMenuArea(horizontalSplitPanel);
-	renderPageContent(horizontalSplitPanel);
-*/
+	/*
+	 * renderPageMenuArea(horizontalSplitPanel);
+	 * renderPageContent(horizontalSplitPanel);
+	 */
     }
 
     private void scrollIntoSection(final String sectionOID) {
 	final Component component = sectionComponentMap.get(sectionOID);
-//	getApplication().getMainWindow().scrollIntoView(component);
+	// getApplication().getMainWindow().scrollIntoView(component);
 	getWindow().scrollIntoView(component);
     }
 
@@ -200,12 +202,12 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
 
 	if (page.canEdit()) {
 	    final AddSectionButton createSectionComponent = new AddSectionButton(new ContentEditorSaveListner() {
-	        @Override
-	        public void save(final String title, final String content) {
-	            final Section section = page.addSection(title, content);
-	            pageBodyComponent.addSection(section);
-	            rerenderMenuArea();
-	        }
+		@Override
+		public void save(final String title, final String content) {
+		    final Section section = page.addSection(title, content);
+		    pageBodyComponent.addSection(section);
+		    rerenderMenuArea();
+		}
 	    });
 	    verticalLayout.addComponent(createSectionComponent);
 	    verticalLayout.setComponentAlignment(createSectionComponent, Alignment.BOTTOM_LEFT);
@@ -214,9 +216,9 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
 
     private void rerenderMenuArea() {
 	final AbstractComponentContainer container = (AbstractComponentContainer) menuArea.getParent();
-        final PageMenuComponent pageMenuComponent = new PageMenuComponent(page);
-        container.replaceComponent(menuArea, pageMenuComponent);
-        menuArea = pageMenuComponent;	
+	final PageMenuComponent pageMenuComponent = new PageMenuComponent(page);
+	container.replaceComponent(menuArea, pageMenuComponent);
+	menuArea = pageMenuComponent;
     }
 
     private void renderPageContent(final AbstractComponentContainer container) {
