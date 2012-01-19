@@ -151,6 +151,11 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
     };
 
     @Override
+    public boolean isAllowedToOpen(Map<String, String> arguments) {
+	return true;
+    }
+
+    @Override
     public void setArguments(Map<String, String> arguments) {
 	page = AbstractDomainObject.fromExternalId(arguments.get("page"));
 	scrolledSection = AbstractDomainObject.fromExternalId(arguments.get("section"));

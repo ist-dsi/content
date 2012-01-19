@@ -10,13 +10,18 @@ import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.VerticalLayout;
 
 @SuppressWarnings("serial")
-@EmbeddedComponent(path = { "SimplePageView" } , args = {"page"} )
+@EmbeddedComponent(path = { "SimplePageView" }, args = { "page" })
 public class SimplePageView extends BaseComponent implements EmbeddedComponentContainer {
 
     private transient Page page;
 
     @Override
-    public void setArguments(Map<String,String> arguments) {
+    public boolean isAllowedToOpen(Map<String, String> arguments) {
+	return true;
+    }
+
+    @Override
+    public void setArguments(Map<String, String> arguments) {
 	page = getDomainObject(arguments.get("page"));
     }
 
