@@ -28,8 +28,6 @@ package module.contents.domain;
 import java.util.Comparator;
 
 import pt.ist.fenixWebFramework.services.Service;
-import pt.utl.ist.fenix.tools.util.i18n.Language;
-import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class Section extends Section_Base {
 
@@ -63,6 +61,7 @@ public class Section extends Section_Base {
 	super.setContainer(container);
     }
 
+    @Override
     @Service
     public void delete() {
 	removeContainer();
@@ -70,17 +69,7 @@ public class Section extends Section_Base {
     }
 
     public void setContent(final String content) {
-	final MultiLanguageString contents = new MultiLanguageString();
-	final Language userLanguage = Language.getUserLanguage();
-	if (getContents() != null) {
-	    for (final Language language : getContents().getAllLanguages()) {
-		if (language != userLanguage) {
-		    contents.setContent(language, getContents().getContent(language));
-		}
-	    }
-	}
-	contents.setContent(content);
-	setContents(contents);
+	setContents(getContents().withDefault(content));
     }
 
     public String getNumber() {
@@ -96,7 +85,7 @@ public class Section extends Section_Base {
     }
 
     public String getNumberedTitle() {
-	return getNumber()  + ". " + getTitle().getContent();
+	return getNumber() + ". " + getTitle().getContent();
     }
 
     public Page getPage() {

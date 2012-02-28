@@ -33,7 +33,6 @@ import myorg.domain.RoleType;
 import myorg.domain.User;
 import myorg.util.BundleUtil;
 import pt.ist.fenixWebFramework.services.Service;
-import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class Page extends Page_Base {
 
@@ -63,7 +62,7 @@ public class Page extends Page_Base {
     @Override
     public void delete() {
 	removeMyOrg();
-        super.delete();
+	super.delete();
     }
 
     @Service
@@ -71,16 +70,15 @@ public class Page extends Page_Base {
 	return new Page();
     }
 
+    @Override
     @Service
     public void setTitle(final String content) {
-	final MultiLanguageString title = getTitle();
-	title.setContent(content);
-	setTitle(title);
+	setTitle(getTitle().withDefault(content));
     }
 
     @Override
     public boolean isPage() {
-        return true;
+	return true;
     }
 
     public boolean canEdit() {
