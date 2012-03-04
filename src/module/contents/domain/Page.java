@@ -2,27 +2,26 @@
  * @(#)Page.java
  *
  * Copyright 2009 Instituto Superior Tecnico
- * Founding Authors: João Figueiredo, Luis Cruz, Paulo Abrantes, Susana Fernandes
+ * Founding Authors: Luis Cruz, Paulo Abrantes
  * 
  *      https://fenix-ashes.ist.utl.pt/
  * 
- *   This file is part of the Contents Module for the MyOrg web application.
+ *   This file is part of the Content Module.
  *
- *   The Contents Module is free software: you can redistribute it and/or modify
- *   it under the terms of the GNU Lesser General Public License as published
- *   by the Free Software Foundation, either version 3 of the License, or
- *   (at your option) any later version.*
+ *   The Content Module is free software: you can
+ *   redistribute it and/or modify it under the terms of the GNU Lesser General
+ *   Public License as published by the Free Software Foundation, either version 
+ *   3 of the License, or (at your option) any later version.
  *
- *   The Contents Module is distributed in the hope that it will be useful,
+ *   The Content Module is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *   GNU Lesser General Public License for more details.
  *
  *   You should have received a copy of the GNU Lesser General Public License
- *   along with the Contents Module. If not, see <http://www.gnu.org/licenses/>.
+ *   along with the Content Module. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-
 package module.contents.domain;
 
 import java.util.ArrayList;
@@ -34,6 +33,13 @@ import myorg.domain.User;
 import myorg.util.BundleUtil;
 import pt.ist.fenixWebFramework.services.Service;
 
+/**
+ * 
+ * @author Pedro Santos
+ * @author Luis Cruz
+ * @author Paulo Abrantes
+ * 
+ */
 public class Page extends Page_Base {
 
     public Page() {
