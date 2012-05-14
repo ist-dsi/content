@@ -25,7 +25,6 @@
 
 package module.contents.domain;
 
-external class .pt.ist.fenixframework.plugins.fileSupport.domain.GenericFile;
 
 class VersionedPageNode extends .myorg.domain.contents.Node {
 }
