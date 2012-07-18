@@ -1,2 +1,0 @@
-name=content
-depends=core, fileSupport, bennu-vaadin, scheduler
