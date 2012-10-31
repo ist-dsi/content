@@ -40,7 +40,6 @@ public class Container extends Container_Base {
 
     public Container() {
 	super();
-	setOjbConcreteClass(getClass().getName());
 	setTitle(BundleUtil.getMultilanguageString("resources.ContentResources", "label.Page.title.defualt"));
     }
 

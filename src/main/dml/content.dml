@@ -43,7 +43,6 @@ valueType pt.utl.ist.fenix.tools.util.Strings as Strings {
 }
 
 class Container {
-	String ojbConcreteClass;
 	MultiLanguageString title;
 }
 
