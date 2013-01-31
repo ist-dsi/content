@@ -38,40 +38,40 @@ import pt.ist.fenixWebFramework.services.Service;
  */
 public class Container extends Container_Base {
 
-    public Container() {
-	super();
-	setTitle(BundleUtil.getMultilanguageString("resources.ContentResources", "label.Page.title.defualt"));
-    }
-
-    public SortedSet<Section> getOrderedSections() {
-	final SortedSet<Section> sections = new TreeSet<Section>(Section.COMPARATOR_BY_ORDER);
-	sections.addAll(getSectionsSet());
-	return sections;
-    }
-
-    public void delete() {
-	for (final Section section : getSectionsSet()) {
-	    section.delete();
+	public Container() {
+		super();
+		setTitle(BundleUtil.getMultilanguageString("resources.ContentResources", "label.Page.title.defualt"));
 	}
-	deleteDomainObject();
-    }
 
-    public void setTitle(final String title) {
-	setTitle(getTitle().withDefault(title));
-    }
+	public SortedSet<Section> getOrderedSections() {
+		final SortedSet<Section> sections = new TreeSet<Section>(Section.COMPARATOR_BY_ORDER);
+		sections.addAll(getSectionsSet());
+		return sections;
+	}
 
-    @Service
-    public Section addSection() {
-	return new Section(this);
-    }
+	public void delete() {
+		for (final Section section : getSectionsSet()) {
+			section.delete();
+		}
+		deleteDomainObject();
+	}
 
-    @Service
-    public Section addSection(final String title, final String content) {
-	return new Section(this, title, content);
-    }
+	public void setTitle(final String title) {
+		setTitle(getTitle().withDefault(title));
+	}
 
-    public boolean isPage() {
-	return false;
-    }
+	@Service
+	public Section addSection() {
+		return new Section(this);
+	}
+
+	@Service
+	public Section addSection(final String title, final String content) {
+		return new Section(this, title, content);
+	}
+
+	public boolean isPage() {
+		return false;
+	}
 
 }

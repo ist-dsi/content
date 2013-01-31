@@ -42,54 +42,54 @@ import pt.ist.fenixWebFramework.services.Service;
  */
 public class Page extends Page_Base {
 
-    public Page() {
-	super();
-	setMyOrg(MyOrg.getInstance());
-	setLink(BundleUtil.getMultilanguageString("resources.ContentResources", "label.Page.link.defualt"));
-    }
-
-    @Service
-    public void reorderSections(final ArrayList<Section> sections) {
-	for (final Section section : getSectionsSet()) {
-	    if (!sections.contains(section)) {
-		throw new Error("Sections changed!");
-	    }
+	public Page() {
+		super();
+		setMyOrg(MyOrg.getInstance());
+		setLink(BundleUtil.getMultilanguageString("resources.ContentResources", "label.Page.link.defualt"));
 	}
 
-	int i = 0;
-	for (final Section section : sections) {
-	    if (!hasSections(section)) {
-		throw new Error("Sections changed!");
-	    }
-	    section.setSectionOrder(Integer.valueOf(i++));
+	@Service
+	public void reorderSections(final ArrayList<Section> sections) {
+		for (final Section section : getSectionsSet()) {
+			if (!sections.contains(section)) {
+				throw new Error("Sections changed!");
+			}
+		}
+
+		int i = 0;
+		for (final Section section : sections) {
+			if (!hasSections(section)) {
+				throw new Error("Sections changed!");
+			}
+			section.setSectionOrder(Integer.valueOf(i++));
+		}
 	}
-    }
 
-    @Override
-    public void delete() {
-	removeMyOrg();
-	super.delete();
-    }
+	@Override
+	public void delete() {
+		removeMyOrg();
+		super.delete();
+	}
 
-    @Service
-    public static Page createNewPage() {
-	return new Page();
-    }
+	@Service
+	public static Page createNewPage() {
+		return new Page();
+	}
 
-    @Override
-    @Service
-    public void setTitle(final String content) {
-	setTitle(getTitle().withDefault(content));
-    }
+	@Override
+	@Service
+	public void setTitle(final String content) {
+		setTitle(getTitle().withDefault(content));
+	}
 
-    @Override
-    public boolean isPage() {
-	return true;
-    }
+	@Override
+	public boolean isPage() {
+		return true;
+	}
 
-    public boolean canEdit() {
-	final User user = UserView.getCurrentUser();
-	return user.hasRoleType(RoleType.MANAGER);
-    }
+	public boolean canEdit() {
+		final User user = UserView.getCurrentUser();
+		return user.hasRoleType(RoleType.MANAGER);
+	}
 
 }

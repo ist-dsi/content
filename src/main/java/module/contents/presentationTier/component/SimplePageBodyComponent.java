@@ -36,27 +36,27 @@ import com.vaadin.ui.AbstractComponentContainer;
  */
 public class SimplePageBodyComponent extends BaseComponent {
 
-    private final transient Page page;
+	private final transient Page page;
 
-    public SimplePageBodyComponent(final Page page) {
-	this.page = page;
-    }
-
-    @Override
-    public void attach() {
-	super.attach();
-
-	final AbstractComponentContainer container = createVerticalLayout();
-	setCompositionRoot(container);
-
-	for (final Section subSection : page.getOrderedSections()) {
-	    addSection(container, subSection);
+	public SimplePageBodyComponent(final Page page) {
+		this.page = page;
 	}
-    }
 
-    public void addSection(final AbstractComponentContainer container, final Section section) {
-	final SimpleSectionComponent sectionComponent = new SimpleSectionComponent(section);
-	container.addComponent(sectionComponent);	
-    }
+	@Override
+	public void attach() {
+		super.attach();
+
+		final AbstractComponentContainer container = createVerticalLayout();
+		setCompositionRoot(container);
+
+		for (final Section subSection : page.getOrderedSections()) {
+			addSection(container, subSection);
+		}
+	}
+
+	public void addSection(final AbstractComponentContainer container, final Section section) {
+		final SimpleSectionComponent sectionComponent = new SimpleSectionComponent(section);
+		container.addComponent(sectionComponent);
+	}
 
 }
