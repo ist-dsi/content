@@ -44,11 +44,11 @@ import pt.ist.fenixWebFramework.struts.annotations.Mapping;
  */
 public class TraditionalPageViewer extends ContextBaseAction {
 
-	public final ActionForward viewPage(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
-			final HttpServletResponse response) throws Exception {
-		final Page page = getDomainObject(request, "pageID");
-		request.setAttribute("page", page);
-		return forward(request, "/contents/traditionalPageViewer.jsp");
-	}
+    public final ActionForward viewPage(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+            final HttpServletResponse response) throws Exception {
+        final Page page = getDomainObject(request, "pageID");
+        request.setAttribute("page", page);
+        return forward(request, "/contents/traditionalPageViewer.jsp");
+    }
 
 }

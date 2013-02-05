@@ -50,25 +50,23 @@ import pt.ist.fenixWebFramework.struts.annotations.Mapping;
  */
 public class CreateVaadinWikiInterface extends ContextBaseAction {
 
-	@CreateNodeAction(
-			bundle = "CONTENT_RESOURCES",
-			key = "label.create.vaadin.wiki.interface",
-			groupKey = "label.module.contents")
-	public final ActionForward prepareCreateNewPage(final ActionMapping mapping, final ActionForm form,
-			final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    @CreateNodeAction(bundle = "CONTENT_RESOURCES", key = "label.create.vaadin.wiki.interface",
+            groupKey = "label.module.contents")
+    public final ActionForward prepareCreateNewPage(final ActionMapping mapping, final ActionForm form,
+            final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-		final VirtualHost virtualHost = getDomainObject(request, "virtualHostToManageId");
-		final Node node = getDomainObject(request, "parentOfNodesToManageId");
+        final VirtualHost virtualHost = getDomainObject(request, "virtualHostToManageId");
+        final Node node = getDomainObject(request, "parentOfNodesToManageId");
 
-		final Page page = Page.createNewPage();
+        final Page page = Page.createNewPage();
 
-		VaadinNode.createVaadinNode(virtualHost, node, "resources.ContentResources", "add.interface.vaadinWiki", "PageView-"
-				+ page.getExternalId(), UserGroup.getInstance());
+        VaadinNode.createVaadinNode(virtualHost, node, "resources.ContentResources", "add.interface.vaadinWiki", "PageView-"
+                + page.getExternalId(), UserGroup.getInstance());
 
-		ActionNode.createActionNode(virtualHost, node, "/traditionalPageViewer", "viewPage&pageID=" + page.getExternalId(),
-				"resources.ContentResources", "add.interface.vaadinWiki", UserGroup.getInstance());
+        ActionNode.createActionNode(virtualHost, node, "/traditionalPageViewer", "viewPage&pageID=" + page.getExternalId(),
+                "resources.ContentResources", "add.interface.vaadinWiki", UserGroup.getInstance());
 
-		return forwardToMuneConfiguration(request, virtualHost, node);
-	}
+        return forwardToMuneConfiguration(request, virtualHost, node);
+    }
 
 }

@@ -37,46 +37,46 @@ import com.vaadin.ui.AbstractComponentContainer;
  */
 public class PageBodyComponent extends BaseComponent {
 
-	private final transient Page page;
-	private final MenuReRenderListner menuReRenderListner;
+    private final transient Page page;
+    private final MenuReRenderListner menuReRenderListner;
 
-	public PageBodyComponent(final Page page, final MenuReRenderListner menuReRenderListner) {
-		this.page = page;
-		this.menuReRenderListner = menuReRenderListner;
-	}
+    public PageBodyComponent(final Page page, final MenuReRenderListner menuReRenderListner) {
+        this.page = page;
+        this.menuReRenderListner = menuReRenderListner;
+    }
 
-	@Override
-	public void attach() {
-		super.attach();
-		setCompositionRoot(ProgressFactory.createCenteredProgressIndicator());
-		new Worker().start();
-	}
+    @Override
+    public void attach() {
+        super.attach();
+        setCompositionRoot(ProgressFactory.createCenteredProgressIndicator());
+        new Worker().start();
+    }
 
-	public void addSection(final Section section) {
-		addSection((AbstractComponentContainer) getCompositionRoot(), section);
-	}
+    public void addSection(final Section section) {
+        addSection((AbstractComponentContainer) getCompositionRoot(), section);
+    }
 
-	public void addSection(final AbstractComponentContainer container, final Section section) {
-		final SectionComponent sectionComponent = new SectionComponent(section, menuReRenderListner);
-		container.addComponent(sectionComponent);
-	}
+    public void addSection(final AbstractComponentContainer container, final Section section) {
+        final SectionComponent sectionComponent = new SectionComponent(section, menuReRenderListner);
+        container.addComponent(sectionComponent);
+    }
 
-	public class Worker extends UserTransactionalThread {
+    public class Worker extends UserTransactionalThread {
 
-		@Override
-		public void doIt() {
-			final AbstractComponentContainer container = createVerticalLayout();
+        @Override
+        public void doIt() {
+            final AbstractComponentContainer container = createVerticalLayout();
 
-			for (final Section subSection : page.getOrderedSections()) {
-				addSection(container, subSection);
-			}
+            for (final Section subSection : page.getOrderedSections()) {
+                addSection(container, subSection);
+            }
 
 //	    synchronized (getApplication()) {
-			setCompositionRoot(container);
+            setCompositionRoot(container);
 //	    }
 
-			requestRepaint();
-		}
-	}
+            requestRepaint();
+        }
+    }
 
 }

@@ -37,72 +37,72 @@ import pt.ist.fenixWebFramework.services.Service;
  */
 public class Section extends Section_Base {
 
-	public static final Comparator<Section> COMPARATOR_BY_ORDER = new Comparator<Section>() {
+    public static final Comparator<Section> COMPARATOR_BY_ORDER = new Comparator<Section>() {
 
-		@Override
-		public int compare(final Section section1, final Section section2) {
-			final int c = section1.getSectionOrder().compareTo(section2.getSectionOrder());
-			return c == 0 ? section1.hashCode() - section2.hashCode() : c;
-		}
+        @Override
+        public int compare(final Section section1, final Section section2) {
+            final int c = section1.getSectionOrder().compareTo(section2.getSectionOrder());
+            return c == 0 ? section1.hashCode() - section2.hashCode() : c;
+        }
 
-	};
+    };
 
-	public Section(final Container container) {
-		super();
-		setContainer(container);
-	}
+    public Section(final Container container) {
+        super();
+        setContainer(container);
+    }
 
-	public Section(final Container container, final String title, final String content) {
-		this(container);
-		setTitle(title);
-		setContent(content);
-	}
+    public Section(final Container container, final String title, final String content) {
+        this(container);
+        setTitle(title);
+        setContent(content);
+    }
 
-	@Override
-	public void setContainer(final Container container) {
-		if (container != null && container != getContainer()) {
-			final int order = container.getSectionsCount() + 1;
-			setSectionOrder(Integer.valueOf(order));
-		}
-		super.setContainer(container);
-	}
+    @Override
+    public void setContainer(final Container container) {
+        if (container != null && container != getContainer()) {
+            final int order = container.getSectionsCount() + 1;
+            setSectionOrder(Integer.valueOf(order));
+        }
+        super.setContainer(container);
+    }
 
-	@Override
-	@Service
-	public void delete() {
-		removeContainer();
-		super.delete();
-	}
+    @Override
+    @Service
+    public void delete() {
+        removeContainer();
+        super.delete();
+    }
 
-	public void setContent(final String content) {
-		setContents(getContents().withDefault(content));
-	}
+    public void setContent(final String content) {
+        setContents(getContents().withDefault(content));
+    }
 
-	public String getNumber() {
-		return isParentAPage() ? getSectionOrder().toString() : ((Section) getContainer()).getNumber() + "." + getSectionOrder();
-	}
+    public String getNumber() {
+        return isParentAPage() ? getSectionOrder().toString() : ((Section) getContainer()).getNumber() + "." + getSectionOrder();
+    }
 
-	private boolean isParentAPage() {
-		return hasContainer() && getContainer().isPage();
-	}
+    private boolean isParentAPage() {
+        return hasContainer() && getContainer().isPage();
+    }
 
-	public int levelFromTop() {
-		return isParentAPage() ? 0 : ((Section) getContainer()).levelFromTop() + 1;
-	}
+    public int levelFromTop() {
+        return isParentAPage() ? 0 : ((Section) getContainer()).levelFromTop() + 1;
+    }
 
-	public String getNumberedTitle() {
-		return getNumber() + ". " + getTitle().getContent();
-	}
+    public String getNumberedTitle() {
+        return getNumber() + ". " + getTitle().getContent();
+    }
 
-	public Page getPage() {
-		final Container parent = getContainer();
-		return parent.isPage() ? (Page) parent : ((Section) parent).getPage();
-	}
+    public Page getPage() {
+        final Container parent = getContainer();
+        return parent.isPage() ? (Page) parent : ((Section) parent).getPage();
+    }
 
-	@Service
-	public void edit(final String title, final String content) {
-		setTitle(title);
-		setContent(content);
-	}
+    @Service
+    public void edit(final String title, final String content) {
+        setTitle(title);
+        setContent(content);
+    }
 
 }
