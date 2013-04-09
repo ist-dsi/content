@@ -32,7 +32,7 @@ import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.VirtualHost;
 import pt.ist.bennu.core.domain.contents.Node;
 import pt.ist.bennu.core.domain.groups.PersistentGroup;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 /**
@@ -50,12 +50,12 @@ public class VersionedPage extends VersionedPage_Base {
         pageNode.setAccessibilityGroup(group);
     }
 
-    @Service
+    @Atomic
     public static VersionedPage createNewPage(VersionedPageBean pageBean) {
         return new VersionedPage(pageBean.getHost(), pageBean.getNode(), pageBean.getGroup(), pageBean.getTitle());
     }
 
-    @Service
+    @Atomic
     public void edit(VersionedPageBean pageBean) {
         int currentVersionNumber = getCurrentVersionNumber();
         setTitle(pageBean.getTitle());
@@ -74,7 +74,7 @@ public class VersionedPage extends VersionedPage_Base {
         return getCurrentVersion().getCreator();
     }
 
-    @Service
+    @Atomic
     public void recover() {
         revertTo(getCurrentVersion());
     }
@@ -84,7 +84,7 @@ public class VersionedPage extends VersionedPage_Base {
         revertTo(pageVersion);
     }
 
-    @Service
+    @Atomic
     public void revertTo(PageVersion pageVersion) {
         PageVersion currentVersion = getCurrentVersion();
         new PageVersion(this, currentVersion.getRevision() + 1, pageVersion.getContent());
@@ -108,12 +108,12 @@ public class VersionedPage extends VersionedPage_Base {
         throw new UnsupportedOperationException("error cannot use setLockPage() use lock and unlock methods inteads");
     }
 
-    @Service
+    @Atomic
     public void lock() {
         super.setLockPage(Boolean.TRUE);
     }
 
-    @Service
+    @Atomic
     public void unlock() {
         super.setLockPage(Boolean.FALSE);
     }

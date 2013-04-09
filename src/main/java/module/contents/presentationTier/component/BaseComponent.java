@@ -29,7 +29,7 @@ import pt.ist.bennu.core.domain.RoleType;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.util.BundleUtil;
 import pt.ist.fenixframework.DomainObject;
-import pt.ist.fenixframework.pstm.AbstractDomainObject;
+import pt.ist.fenixframework.FenixFramework;
 
 import com.vaadin.ui.AbstractComponentContainer;
 import com.vaadin.ui.CustomComponent;
@@ -46,7 +46,7 @@ import com.vaadin.ui.VerticalLayout;
 public abstract class BaseComponent extends CustomComponent {
 
     protected <T extends DomainObject> T getDomainObject(final String externalId) {
-        return AbstractDomainObject.<T> fromExternalId(externalId);
+        return FenixFramework.<T> getDomainObject(externalId);
     }
 
     protected String getBundle() {

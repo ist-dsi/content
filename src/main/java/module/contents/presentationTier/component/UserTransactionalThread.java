@@ -24,27 +24,29 @@
  */
 package module.contents.presentationTier.component;
 
-import jvstm.TransactionalCommand;
 import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
-import pt.ist.fenixframework.pstm.Transaction;
+import pt.ist.fenixframework.Atomic;
 
 /**
  * 
  * @author Luis Cruz
  * 
  */
-public abstract class UserTransactionalThread extends Thread implements TransactionalCommand {
+public abstract class UserTransactionalThread extends Thread {
 
     private final UserView user = pt.ist.fenixWebFramework.security.UserView.getUser();
 
     @Override
+    @Atomic(readOnly = true)
     public void run() {
         try {
             pt.ist.fenixWebFramework.security.UserView.setUser(user);
-            Transaction.withTransaction(true, this);
+            doIt();
         } finally {
             pt.ist.fenixWebFramework.security.UserView.setUser(null);
         }
     }
+
+    protected abstract void doIt();
 
 }

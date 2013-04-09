@@ -26,7 +26,7 @@ package module.contents.domain;
 
 import java.util.Comparator;
 
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 /**
  * 
@@ -68,7 +68,7 @@ public class Section extends Section_Base {
     }
 
     @Override
-    @Service
+    @Atomic
     public void delete() {
         removeContainer();
         super.delete();
@@ -99,7 +99,7 @@ public class Section extends Section_Base {
         return parent.isPage() ? (Page) parent : ((Section) parent).getPage();
     }
 
-    @Service
+    @Atomic
     public void edit(final String title, final String content) {
         setTitle(title);
         setContent(content);
