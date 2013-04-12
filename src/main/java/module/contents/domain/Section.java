@@ -61,7 +61,7 @@ public class Section extends Section_Base {
     @Override
     public void setContainer(final Container container) {
         if (container != null && container != getContainer()) {
-            final int order = container.getSectionsCount() + 1;
+            final int order = container.getSectionsSet().size() + 1;
             setSectionOrder(Integer.valueOf(order));
         }
         super.setContainer(container);
@@ -70,7 +70,7 @@ public class Section extends Section_Base {
     @Override
     @Atomic
     public void delete() {
-        removeContainer();
+        setContainer(null);
         super.delete();
     }
 
@@ -83,7 +83,7 @@ public class Section extends Section_Base {
     }
 
     private boolean isParentAPage() {
-        return hasContainer() && getContainer().isPage();
+        return getContainer() != null && getContainer().isPage();
     }
 
     public int levelFromTop() {

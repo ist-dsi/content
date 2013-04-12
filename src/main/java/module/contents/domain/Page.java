@@ -58,7 +58,7 @@ public class Page extends Page_Base {
 
         int i = 0;
         for (final Section section : sections) {
-            if (!hasSections(section)) {
+            if (!getSectionsSet().contains(section)) {
                 throw new Error("Sections changed!");
             }
             section.setSectionOrder(Integer.valueOf(i++));
@@ -67,7 +67,7 @@ public class Page extends Page_Base {
 
     @Override
     public void delete() {
-        removeMyOrg();
+        setMyOrg(null);
         super.delete();
     }
 

@@ -26,6 +26,7 @@ package module.contents.presentationTier.component;
 
 import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.fenixframework.Atomic;
+import pt.ist.fenixframework.Atomic.TxMode;
 
 /**
  * 
@@ -37,7 +38,7 @@ public abstract class UserTransactionalThread extends Thread {
     private final UserView user = pt.ist.fenixWebFramework.security.UserView.getUser();
 
     @Override
-    @Atomic(readOnly = true)
+    @Atomic(mode = TxMode.READ)
     public void run() {
         try {
             pt.ist.fenixWebFramework.security.UserView.setUser(user);

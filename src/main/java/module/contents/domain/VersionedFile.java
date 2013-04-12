@@ -75,4 +75,9 @@ public class VersionedFile extends VersionedFile_Base {
     public int getCurrentRevision() {
         return getCurrentVersion().getRevision();
     }
+    @Deprecated
+    public java.util.Set<module.contents.domain.FileVersion> getFileVersions() {
+        return getFileVersionsSet();
+    }
+
 }

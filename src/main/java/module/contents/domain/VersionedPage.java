@@ -130,4 +130,19 @@ public class VersionedPage extends VersionedPage_Base {
     public boolean isCurrentUserAbleToViewOptions() {
         return isUserAbleToViewOptions(UserView.getCurrentUser());
     }
+    @Deprecated
+    public java.util.Set<module.contents.domain.VersionedPageNode> getNodes() {
+        return getNodesSet();
+    }
+
+    @Deprecated
+    public java.util.Set<module.contents.domain.PageVersion> getPageVersions() {
+        return getPageVersionsSet();
+    }
+
+    @Deprecated
+    public java.util.Set<module.contents.domain.VersionedFile> getFiles() {
+        return getFilesSet();
+    }
+
 }

@@ -74,4 +74,9 @@ public class Container extends Container_Base {
         return false;
     }
 
+    @Deprecated
+    public java.util.Set<module.contents.domain.Section> getSections() {
+        return getSectionsSet();
+    }
+
 }
