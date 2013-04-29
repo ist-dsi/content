@@ -26,7 +26,7 @@ package module.contents.domain;
 
 import java.util.Comparator;
 
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 /**
  * 
@@ -61,16 +61,16 @@ public class Section extends Section_Base {
     @Override
     public void setContainer(final Container container) {
         if (container != null && container != getContainer()) {
-            final int order = container.getSectionsCount() + 1;
+            final int order = container.getSectionsSet().size() + 1;
             setSectionOrder(Integer.valueOf(order));
         }
         super.setContainer(container);
     }
 
     @Override
-    @Service
+    @Atomic
     public void delete() {
-        removeContainer();
+        setContainer(null);
         super.delete();
     }
 
@@ -83,7 +83,7 @@ public class Section extends Section_Base {
     }
 
     private boolean isParentAPage() {
-        return hasContainer() && getContainer().isPage();
+        return getContainer() != null && getContainer().isPage();
     }
 
     public int levelFromTop() {
@@ -99,7 +99,7 @@ public class Section extends Section_Base {
         return parent.isPage() ? (Page) parent : ((Section) parent).getPage();
     }
 
-    @Service
+    @Atomic
     public void edit(final String title, final String content) {
         setTitle(title);
         setContent(content);

@@ -42,9 +42,9 @@ import pt.ist.bennu.core.domain.contents.Node;
 import pt.ist.bennu.core.domain.groups.AnyoneGroup;
 import pt.ist.bennu.core.presentationTier.Context;
 import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
-import pt.ist.fenixWebFramework.services.Service;
 import pt.ist.fenixWebFramework.servlets.functionalities.CreateNodeAction;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
+import pt.ist.fenixframework.Atomic;
 
 @Mapping(path = "/pageVersioning")
 /**
@@ -139,7 +139,7 @@ public class VersionedContent extends ContextBaseAction {
         return viewPageVersion(request, version);
     }
 
-    @Service
+    @Atomic
     private void s1(PageVersion version) {
         version.getPage().addFiles(new VersionedFile());
     }
