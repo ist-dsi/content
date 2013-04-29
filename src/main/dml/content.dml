@@ -25,23 +25,6 @@
 
 package module.contents.domain;
 
-
-valueType pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString as MultiLanguageString {
-    externalizeWith {
-        String exportAsString();
-    }
-
-    internalizeWith importFromString();
-}
-
-valueType pt.utl.ist.fenix.tools.util.Strings as Strings {
-    externalizeWith {
-        String exportAsString();
-    }
-
-    internalizeWith importFromString();
-}
-
 class Container {
 	MultiLanguageString title;
 }

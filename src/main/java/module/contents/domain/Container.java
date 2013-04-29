@@ -28,7 +28,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 /**
  * 
@@ -60,18 +60,23 @@ public class Container extends Container_Base {
         setTitle(getTitle().withDefault(title));
     }
 
-    @Service
+    @Atomic
     public Section addSection() {
         return new Section(this);
     }
 
-    @Service
+    @Atomic
     public Section addSection(final String title, final String content) {
         return new Section(this, title, content);
     }
 
     public boolean isPage() {
         return false;
+    }
+
+    @Deprecated
+    public java.util.Set<module.contents.domain.Section> getSections() {
+        return getSectionsSet();
     }
 
 }

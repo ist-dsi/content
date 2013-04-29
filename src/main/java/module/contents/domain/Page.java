@@ -31,7 +31,7 @@ import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.RoleType;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 /**
  * 
@@ -48,7 +48,7 @@ public class Page extends Page_Base {
         setLink(BundleUtil.getMultilanguageString("resources.ContentResources", "label.Page.link.defualt"));
     }
 
-    @Service
+    @Atomic
     public void reorderSections(final ArrayList<Section> sections) {
         for (final Section section : getSectionsSet()) {
             if (!sections.contains(section)) {
@@ -58,7 +58,7 @@ public class Page extends Page_Base {
 
         int i = 0;
         for (final Section section : sections) {
-            if (!hasSections(section)) {
+            if (!getSectionsSet().contains(section)) {
                 throw new Error("Sections changed!");
             }
             section.setSectionOrder(Integer.valueOf(i++));
@@ -67,17 +67,17 @@ public class Page extends Page_Base {
 
     @Override
     public void delete() {
-        removeMyOrg();
+        setMyOrg(null);
         super.delete();
     }
 
-    @Service
+    @Atomic
     public static Page createNewPage() {
         return new Page();
     }
 
     @Override
-    @Service
+    @Atomic
     public void setTitle(final String content) {
         setTitle(getTitle().withDefault(content));
     }

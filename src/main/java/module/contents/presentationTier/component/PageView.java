@@ -32,7 +32,7 @@ import java.util.Set;
 import module.contents.domain.Page;
 import module.contents.domain.Section;
 import module.vaadin.ui.BennuTheme;
-import pt.ist.fenixframework.pstm.AbstractDomainObject;
+import pt.ist.fenixframework.FenixFramework;
 import pt.ist.vaadinframework.EmbeddedApplication;
 import pt.ist.vaadinframework.annotation.EmbeddedComponent;
 import pt.ist.vaadinframework.ui.EmbeddedComponentContainer;
@@ -189,8 +189,8 @@ public class PageView extends BaseComponent implements EmbeddedComponentContaine
 
     @Override
     public void setArguments(Map<String, String> arguments) {
-        page = AbstractDomainObject.fromExternalId(arguments.get("page"));
-        scrolledSection = AbstractDomainObject.fromExternalId(arguments.get("section"));
+        page = FenixFramework.getDomainObject(arguments.get("page"));
+        scrolledSection = FenixFramework.getDomainObject(arguments.get("section"));
     }
 
     @Override

@@ -30,7 +30,7 @@ import java.util.TreeSet;
 
 import org.joda.time.DateTime;
 
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 /**
  * 
@@ -43,7 +43,7 @@ public class VersionedFile extends VersionedFile_Base {
         new FileVersion(this, 0);
     }
 
-    @Service
+    @Atomic
     public void addVersion() {
         new FileVersion(this, getCurrentVersion().getRevision() + 1);
     }
@@ -75,4 +75,9 @@ public class VersionedFile extends VersionedFile_Base {
     public int getCurrentRevision() {
         return getCurrentVersion().getRevision();
     }
+    @Deprecated
+    public java.util.Set<module.contents.domain.FileVersion> getFileVersions() {
+        return getFileVersionsSet();
+    }
+
 }
