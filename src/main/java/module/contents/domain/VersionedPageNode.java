@@ -55,7 +55,7 @@ public class VersionedPageNode extends VersionedPageNode_Base {
 
     @Override
     public void delete() {
-        removePage();
+        setPage(null);
         super.delete();
     }
 
